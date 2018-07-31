@@ -5,11 +5,12 @@ const express = require('express')
 const app     = express()
 const ejs     = require('ejs')
 
-app.engine('html', ejs.renderFile)
-app.set('view engine', 'html')
+app.set('view engine', 'ejs')
+
+let user = {name: 'Jon', job: 'president'}
 
 app.get('/', (req, res) => {
-  res.render('index')
+  res.render('index', {user: user})
 })
 
 const port = process.env.PORT || 3000
