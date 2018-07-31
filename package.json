@@ -1,0 +1,25 @@
+{
+  "name": "movie-search-engine",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brac/movie-search-engine.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/brac/movie-search-engine/issues"
+  },
+  "homepage": "https://github.com/brac/movie-search-engine#readme",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "express": "^4.16.3",
+    "pg-promise": "^8.4.5"
+  }
+}
