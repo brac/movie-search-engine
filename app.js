@@ -10,7 +10,7 @@ app.set('view engine', 'ejs')
 let user = {name: 'Jon', job: 'president'}
 
 app.get('/', (req, res) => {
-  res.render('index', {user: user})
+  res.render('layout', {mode: 'login'})
 })
 
 const port = process.env.PORT || 3000
