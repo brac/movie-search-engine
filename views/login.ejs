@@ -1,37 +1,34 @@
-<div class="h-100">
-  <div class="border rounded p-4 h-100">
-    <h2>User Login</h2>
-    <p>Please enter your username and password</p>
-  </div>
-</div>
+<div class="container h-100">
+  <div class="row h-100 align-items-center">
+    <div class="d-flex mx-auto ">
+      <div class="card-body">
+        <div class="card p-4" style="width: 25rem;">
 
+          <div class="card-body">
+            <h2 class="card-title">User Login</h2>
+            <p class="card-text">Please enter your username and password</p>
+          </div>
 
-<!--
-  <div class="container ">
-  <div class="border mw-70 rounded p-3">
-    <div class="login-form">
-      <div class="main-div">
-        <div class="panel">
-          <h2>User Login</h2>
-          <p>Please enter your email and password</p>
+          <form>
+            <div class="form-grpup">
+              <label for="exampleInputUserName">User Name</label>
+              <input type="userName" class="form-control" id="exampleInputUserName" aria-describedby="userNameHelp" placeholder="joeDirt@youcandoeet.com">
+              <small id="userNameHelp" class="form-text text-muted"></small>
+            </div>
+
+            <div class="form-group">
+              <label for="exampleInputPassword">Password</label>
+              <input type="password" class="form-control" id="exampleInputPassword" placeholder="Password">
+            </div>
+
+            <div class="forgot">
+              <a href="/resetPassword">Forgot Password?</a>
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+          </form>
         </div>
-
-        <form id="Login">
-          <div class="form-group">
-            <input type="email" class="form-control" id="inputEmail" placeholder="Email Address">
-          </div>
-
-          <div class="form-group">
-            <input type="password" class="form-control" id="inputPassword" placeholder="Password">
-          </div>
-          <div class="forgot">
-            <a href="reset.html">Forgot password?</a>
-          </div>
-
-          <button type="submit" class="btn btn-primary">Login</button>
-        </form>
       </div>
     </div>
   </div>
 </div>
-  -->
