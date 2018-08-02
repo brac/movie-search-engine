@@ -11,20 +11,9 @@
     <script type="text/javascript" src="/script.js"></script>
   </head>
   <body>
-
     <div style="height: calc(100vh - 120px)">
-
       <%- include('./includes/header') %>
-
-      <% if (mode == 'login') { %>
-        <%- include('./login') %>
-      <% } else if (mode == 'signup') { %>
-        <%- include('./singup') %>
-      <% } else { %>
-        <%- include('./welcome') %>
-      <% } %>
-
-
+        <%- include('./includes/main') %>
       <%- include('./includes/footer') %>
     </div>
   </body>

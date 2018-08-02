@@ -21,11 +21,11 @@
               <div class="card p-4" style="width: 25rem;">
 
                 <div class="card-body">
-                  <h2 class="card-title">User Login</h2>
-                  <p class="card-text">Please enter your username and password</p>
+                  <h2 class="card-title">Sign Up</h2>
+                  <p class="card-text">Please enter your desired username and password</p>
                 </div>
 
-                <form method="POST" action="/login">
+                <form method="POST">
                   <div class="form-grpup">
                     <label for="exampleInputUserName">User Name</label>
                     <input type="userName" class="form-control" id="exampleInputUserName" aria-describedby="userNameHelp" placeholder="joeDirt@youcandoeet.com">
@@ -37,20 +37,16 @@
                     <input type="password" class="form-control" id="exampleInputPassword" placeholder="Password">
                   </div>
 
-                  <div class="forgot">
-                    <a href="/resetPassword">Forgot Password?</a>
-                  </div>
-
-                  <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                  <button type="submit" class="btn btn-primary mt-3">Register</button>
                 </form>
               </div>
             </div>
           </div>
         </div>
       </div>
-
       <%- include('./includes/footer') %>
     </div>
   </body>
 </html>
+
 
