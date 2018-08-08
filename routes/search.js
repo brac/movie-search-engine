@@ -3,7 +3,10 @@
 const router = require('express').Router()
 
 router.get('/', (req, res) => {
-  res.send('You clicked search')
+
+
+
+  res.render('main', { results })
 })
 
 // router.get('/:id', (req, res) => {

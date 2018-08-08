@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const loadingIcon = document.getElementById('loading-icon')
 
   searchButton.addEventListener('click', (e) => {
-    e.preventDefault()
     searchButton.classList.add('d-none')
     loadingIcon.classList.remove('d-none')
   })
