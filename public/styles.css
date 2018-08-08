@@ -7,8 +7,13 @@
     animation: spin 2s linear infinite;
 }
 
+main{
+  display: block;
+  overflow: auto;
+  min-height: calc(100vh - 120px) !important;
+}
+
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
-
