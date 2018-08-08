@@ -25,7 +25,7 @@ app.use('/login', loginRoutes)
 app.use('/signup', signupRoutes)
 
 app.get('/', (req, res) => {
-  res.render('layout', {mode: ''})
+  res.render('layout')
 })
 
 app.get('/', (req, res) => {

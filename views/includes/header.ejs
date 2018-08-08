@@ -1,11 +1,30 @@
 <nav class="navbar bg-secondary">
-  <a class="navbar-brand text-white" href="#">Movie Search Engine</a>
+  <a class="navbar-brand text-white" href="/">Movie Search Engine</a>
   <ul class="nav">
-    <li>
-      <a class="nav-link text-white" href="/login">login</a>
-    </li>
-    <li>
-      <a class="nav-link text-white" href="/signup">sign up</a>
-    </li>
+
+    <% if(name === ''){ %>
+      <li>
+        <a class="nav-link text-white" href="/login">login</a>
+      </li>
+
+      <li>
+        <a class="nav-link text-white" href="/signup">sign up</a>
+      </li>
+
+     <% } else { %>
+       <li>
+         <a class="nav-link text-white" href="#">
+          <%= name %></a>
+       </li>
+
+       <li>
+         <a class="nav-link text-white" href="/signup">Logout</a>
+       </li>
+    <% } %>
+
+
+
+
+
   </ul>
 </nav>

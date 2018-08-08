@@ -3,11 +3,13 @@
 const router = require('express').Router()
 
 router.get('/', (req, res) => {
-  res.json(req.query)
+  console.log(req.query)
+  res.redirect('/')
 })
 
 router.get('/:id', (req, res) => {
-  res.json(req.params)
+  console.log(req.params)
+  res.redirect('/')
 })
 
 module.exports = router
