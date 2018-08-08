@@ -6,20 +6,23 @@
         <h1>Movie Search Engine</h1>
       </div >
 
-      <form action="/search">
+      <form methdo="GET" action="/search">
         <div class="form-group row">
           <div class="col">
             <input
               type="text"
               class="form-control"
-              id="searchInput"
+              name="search-input"
               placeholder="Search for a Movie...">
           </div>
 
-          <button type="submit" class="btn btn-primary">Search</button>
-          <div class="loader d-none"></div>
+          <div class="col-2">
+            <button id="search-button" type="submit" class="btn btn-primary">Search</button>
+            <div id="loading-icon" class="loader d-none"></div>
+          </div>
         </div>
       </form>
     </div>
   </div>
 </div>
+<script type="text/javascript" src="/script.js"></script>
