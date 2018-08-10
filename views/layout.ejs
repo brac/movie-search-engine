@@ -13,7 +13,14 @@
   <body>
     <!-- <div style="height: calc(100vh - 120px)"> -->
     <%- include('./includes/header', {name: ''}) %>
-    <%- include('./includes/main') %>
+    <% if (results !== null) { %>
+      <%- include('./includes/main', {results: results}) %>
+    <% } else { %>
+      <%- include('./includes/main', {results: ''}) %>
+
+    <% } %>
+
+
     <%- include('./includes/footer') %>
   </body>
 </html>

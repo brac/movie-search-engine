@@ -3,10 +3,7 @@
 const router = require('express').Router()
 
 router.get('/', (req, res) => {
-
-
-
-  res.render('main', { results })
+  res.render('layout', {results: {name: 'ben', job: 'programmer'}})
 })
 
 // router.get('/:id', (req, res) => {
