@@ -7,13 +7,14 @@
         </div >
 
         <div id="search-bar">
-          <form methdo="GET" action="/search">
+          <form id="search-form" methdo="GET" action="/search">
             <div class="form-group row">
               <div class="col">
                 <input
+                  id="search-input"
                   type="text"
                   class="form-control"
-                  name="search-input"
+                  name="searchInput"
                   placeholder="Search for a Movie...">
               </div>
               <div class="col-2">
@@ -30,10 +31,9 @@
     <div id="search-results" class="row justify-content-center">
         <ul class="list-group col-9 mb-4">
           <% if (results) { %>
-            <h2><%- results.name %></h2>
-            <h3><%- results.job %></h3>
+            <h3><%- results.message %></h3>
           <% } else { %>
-            <h1>not found</h1>
+
           <% } %>
 
           <!-- <li class="list-group-item">

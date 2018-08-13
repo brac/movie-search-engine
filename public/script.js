@@ -1,16 +1,14 @@
 // jshint asi:true
+
 document.addEventListener("DOMContentLoaded", () => {
 
   const searchButton = document.getElementById('search-button')
   const loadingIcon = document.getElementById('loading-icon')
+  const form = document.getElementById('search-form')
+  // const uri = `http://www.imdb.com/find?ref_=nv_sr_fn&q=${searchInput}&s=all`
 
-  searchButton.addEventListener('click', (e) => {
+  form.addEventListener("submit", function(e){
     searchButton.classList.add('d-none')
     loadingIcon.classList.remove('d-none')
-  })
-
-  loadingIcon.addEventListener('click', (e) => {
-    searchButton.classList.remove('d-none')
-    loadingIcon.classList.add('d-none')
-  })
+  });
 })
