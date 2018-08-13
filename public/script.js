@@ -4,8 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const searchButton = document.getElementById('search-button')
   const loadingIcon = document.getElementById('loading-icon')
-  const form = document.getElementById('search-form')
-  // const uri = `http://www.imdb.com/find?ref_=nv_sr_fn&q=${searchInput}&s=all`
 
   form.addEventListener("submit", function(e){
     searchButton.classList.add('d-none')

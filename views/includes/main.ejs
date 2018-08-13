@@ -31,7 +31,14 @@
     <div id="search-results" class="row justify-content-center">
         <ul class="list-group col-9 mb-4">
           <% if (results) { %>
-            <h3><%- results.message %></h3>
+            <span>
+              <%- results[0].image %>
+              <h3><%-results[0].name, results[0].date %></h3>
+            </span>
+            <span>
+              <%- results[1].image %>
+              <h3><%-results[1].name, results[1].date %></h3>
+            </span>
           <% } else { %>
 
           <% } %>
