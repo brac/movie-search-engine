@@ -3,9 +3,11 @@ const rp        = require('request-promise')
 const cheerio = require('cheerio')
 
 const queryImdb = (searchParam) => {
+  searchParam = searchParam.split(' ').join('+')
+
   return new Promise((resolve, reject) => {
     let options = {
-      uri: `http://www.imdb.com/find?ref_=nv_sr_fn&q=${searchParam}&s=all`,
+      uri: `https://www.imdb.com/find?ref_=nv_sr_fn&q=${searchParam}&s=all`,
       transform: body => cheerio.load(body),
     }
 
@@ -16,29 +18,28 @@ const queryImdb = (searchParam) => {
           .find('.result_text')
           .map((i, elem) => {
             return {
-              name: $(elem).text().split('-')[0].split(' (')[0].trim(),
-              date: $(elem).text().split('-')[0].split(' (')[1].trim().slice(0, -1)
+              name: $(elem).text().split('(')[0],
+              date: $(elem).text().split('(')[1].trim().slice(0,-1)
             }
           })
-
           .toArray()
-
-
 
         let images = $('[name=tt]')
           .closest('.findSection')
           .find('.primary_photo')
           .map((i, elem) => {
             return {
-              image: $(elem).find('img'),
+              image: $.html($(elem).find('img')),
             }
           })
           .toArray()
 
-          movies.forEach((movie, i) => {
-            movie.image = $.html(images[i].image)
-          })
+        movies.forEach((movie, i) => {
+          movie.image = images[i].image
+        })
+
         console.log(movies)
+
         resolve(movies)
       })
     .catch(e => reject(e) )
