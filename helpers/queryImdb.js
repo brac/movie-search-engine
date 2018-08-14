@@ -11,8 +11,8 @@ const queryImdb = (searchParam) => {
 
     rp(options)
       .then( $ => {
-        let movies = $('.findSection')
-          .first()
+        let movies = $('[name=tt]')
+          .closest('.findSection')
           .find('.result_text')
           .map((i, elem) => {
             return {
@@ -20,10 +20,13 @@ const queryImdb = (searchParam) => {
               date: $(elem).text().split('-')[0].split(' (')[1].trim().slice(0, -1)
             }
           })
+
           .toArray()
 
-        let images = $('.findSection')
-          .first()
+
+
+        let images = $('[name=tt]')
+          .closest('.findSection')
           .find('.primary_photo')
           .map((i, elem) => {
             return {
@@ -33,9 +36,9 @@ const queryImdb = (searchParam) => {
           .toArray()
 
           movies.forEach((movie, i) => {
-            movie.image = images[i].image
+            movie.image = $.html(images[i].image)
           })
-
+        console.log(movies)
         resolve(movies)
       })
     .catch(e => reject(e) )
