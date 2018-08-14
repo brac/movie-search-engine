@@ -7,6 +7,7 @@ router.get('/', (req, res) => {
 
   queryImdb(searchParam)
     .then(results => {
+
       res.render('layout', {results: results})
     })
     .catch(e => {

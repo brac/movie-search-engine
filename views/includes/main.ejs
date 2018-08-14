@@ -31,81 +31,18 @@
     <div id="search-results" class="row justify-content-center">
         <ul class="list-group col-9 mb-4">
           <% if (results) { %>
-            <span>
-              <%- results[0].image %>
-              <h3><%-results[0].name, results[0].date %></h3>
-            </span>
-            <span>
-              <%- results[1].image %>
-              <h3><%-results[1].name, results[1].date %></h3>
-            </span>
+            <% results.forEach(function(result) {%>
+              <li class="list-group-item">
+                <div class="row">
+                  <%- result.image %>
+                  <p class="col my-auto"><%- result.name %></p>
+                  <p class="my-auto"><%- result.date %></p>
+                </div>
+              </li>
+            <%})%>
           <% } else { %>
 
           <% } %>
-
-          <!-- <li class="list-group-item">
-            <div class="row">
-              <img src="https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_UX32_CR0,0,32,44_AL_.jpg">
-              <p class="col my-auto">The Matrix</p>
-              <p class="my-auto">(1999)</p>
-            </div>
-          </li>
-
-          <li class="list-group-item">
-            <div class="row">
-              <img src="https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_UX32_CR0,0,32,44_AL_.jpg">
-              <p class="col my-auto">The Matrix</p>
-              <p class="my-auto">(1999)</p>
-            </div>
-          </li>
-
-          <li class="list-group-item">
-            <div class="row">
-              <img src="https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_UX32_CR0,0,32,44_AL_.jpg">
-              <p class="col my-auto">The Matrix</p>
-              <p class="my-auto">(1999)</p>
-            </div>
-          </li>
-
-          <li class="list-group-item">
-            <div class="row">
-              <img src="https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_UX32_CR0,0,32,44_AL_.jpg">
-              <p class="col my-auto">The Matrix</p>
-              <p class="my-auto">(1999)</p>
-            </div>
-          </li>
-
-          <li class="list-group-item">
-            <div class="row">
-              <img src="https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_UX32_CR0,0,32,44_AL_.jpg">
-              <p class="col my-auto">The Matrix</p>
-              <p class="my-auto">(1999)</p>
-            </div>
-          </li>
-
-          <li class="list-group-item">
-            <div class="row">
-              <img src="https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_UX32_CR0,0,32,44_AL_.jpg">
-              <p class="col my-auto">The Matrix</p>
-              <p class="my-auto">(1999)</p>
-            </div>
-          </li>
-
-          <li class="list-group-item">
-            <div class="row">
-              <img src="https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_UX32_CR0,0,32,44_AL_.jpg">
-              <p class="col my-auto">The Matrix</p>
-              <p class="my-auto">(1999)</p>
-            </div>
-          </li>
-
-          <li class="list-group-item">
-            <div class="row">
-              <img src="https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_UX32_CR0,0,32,44_AL_.jpg">
-              <p class="col my-auto">The Matrix</p>
-              <p class="my-auto">(1999)</p>
-            </div>
-          </li> -->
         </ul>
     </div>
   <script type="text/javascript" src="/script.js"></script>
