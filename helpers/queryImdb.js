@@ -38,8 +38,6 @@ const queryImdb = (searchParam) => {
           movie.image = images[i].image
         })
 
-        console.log(movies)
-
         resolve(movies)
       })
     .catch(e => reject(e) )
