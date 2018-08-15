@@ -7,8 +7,7 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-  console.log('POST to Signup!')
-  res.render('layout')
+  res.end(`Got some data: ${req.body.name}, ${req.body.password}, ${req.body.confirmPassword}`)
 })
 
 module.exports = router

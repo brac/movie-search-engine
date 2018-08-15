@@ -7,7 +7,7 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-  res.send('Post from /login!')
+  res.end(`Got some data: ${req.body.name}, ${req.body.password}`)
 })
 
 module.exports = router

@@ -12,10 +12,11 @@ const ejs          = require('ejs')
 
 let user = {name: 'Jon', job: 'president'}
 
-app.set('view engine', 'ejs')
-app.use(express.static(`${__dirname}/public`))
 app.use(bodyParser.urlencoded({extended: true}))
-app.use(bodyParser.json())
+app.use(express.static(`${__dirname}/public`))
+
+app.set('view engine', 'ejs')
+// app.use(bodyParser.json())
 
 app.use('/search', searchRoutes)
 app.use('/login', loginRoutes)
