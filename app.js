@@ -1,14 +1,15 @@
 // jshint asi:true
 
-const path         = require('path')
-const express      = require('express')
-const loginRoutes  = require(path.join(__dirname, 'routes/login'))
-const signupRoutes = require(path.join(__dirname, 'routes/signup'))
-const searchRoutes = require(path.join(__dirname, 'routes/search'))
+const path          = require('path')
+const express       = require('express')
+const loginRoutes   = require(path.join(__dirname, 'routes/login'))
+const signupRoutes  = require(path.join(__dirname, 'routes/signup'))
+const searchRoutes  = require(path.join(__dirname, 'routes/search'))
 const historyRoutes = require(path.join(__dirname, 'routes/history'))
-const bodyParser   = require('body-parser')
-const app          = express()
-const ejs          = require('ejs')
+const bodyParser    = require('body-parser')
+const ejs           = require('ejs')
+const app           = express()
+const actions           = require('./actions')
 
 let user = {name: 'Jon', job: 'president'}
 
