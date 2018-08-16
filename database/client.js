@@ -5,7 +5,7 @@ const pgp = require('pg-promise')()
 const cn = {
     host: 'localhost',
     port: 5432,
-    database: 'movie_search_engine_users',
+    database: 'movie_search_engine',
 }
 
 let db = pgp(cn);

@@ -2,10 +2,21 @@
   "name": "movie-search-engine",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "start": "nodemon app.js",
-    "test": "./node_modules/.bin/mocha --reporter spec"
+    "start": "node app.js",
+    "start:dev": "nodemon app.js",
+    "db:seed": "cat ./test/seeds/*.sql | psql movie_search_engine",
+    "db:create": "createdb movie_search_engine",
+    "db:drop": "dropdb movie_search_engine",
+    "db:schema": "psql movie_search_engine < ./database/schema.sql",
+    "db:reset": "npm run db:drop && npm run db:create && npm run db:schema",
+    "test": "NODE_ENV=test mocha ./test/*_test.js",
+    "test:app": "NODE_ENV=test mocha ./test/app_test.js",
+    "test:queries": "NODE_ENV=test mocha ./test/queries_test.js",
+    "test:db:create": "createdb movie_search_engine_test",
+    "test:db:drop": "dropdb movie_search_engine_test",
+    "test:db:schema": "psql movie_search_engine_test < ./database/schema.sql",
+    "test:db:reset": "npm run test:db:drop && npm run test:db:create && npm run test:db:schema"
   },
   "repository": {
     "type": "git",

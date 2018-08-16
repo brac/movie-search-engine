@@ -1,22 +1,16 @@
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
-  firstNname  VARCHAR(255) NOT NULL,
+  userName VARCHAR(255) UNIQUE NOT NULL,
   password VARCHAR(255) NOT NULL
-)
+);
 
 CREATE TABLE searches (
   id SERIAL PRIMARY KEY,
-  searchTerm VARCHAR(255) NOT NULL
-)
+  searchTerm VARCHAR(255) UNIQUE NOT NULL
+);
 
 CREATE TABLE user_searches (
-  user_id int NOT NULL,
-  search_id int NOT NULL,
-  CONSTRAINT PK_user_searches PRIMARY KEY
-    (
-      user_id,
-      search_id
-    ),
-  FOREIGN KEY (user_id) REFERENCES users(id)
-  FOREIGN KEY (search) REFERENCES searches(id)
-)
+  id SERIAL PRIMARY KEY,
+  search_id INTEGER REFERENCES searches (id) NOT NULL,
+  user_id INTEGER REFERENCES users (id) NOT NULL
+);
