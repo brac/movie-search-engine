@@ -12,10 +12,15 @@ describe('Database Queries', function() {
   beforeEach(resetDatabase)
 
   context('findHistory', function() {
-    it('Returns the history of current user', function() {
+    it('Returns the history of a user', function() {
       return findHistory('Ben Bracamonte')
         .then(records => {
+          expect(records[0].search_term).to.equal('The Matrix')
           expect(records.length).to.equal(3)
+          return findHistory('Jenna Wieden')
+        }).then(records => {
+          expect(records[1].search_term).to.equal('Jurassic Park')
+          expect(records.length).to.equal(2)
         })
     })
   })

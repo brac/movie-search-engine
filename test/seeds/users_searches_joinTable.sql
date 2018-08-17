@@ -1,6 +1,6 @@
 INSERT INTO users (users_name, password) values
   ('Ben Bracamonte', 'password'),
-  ('Wilmer Pulteneye', 'password'),
+  ('Jenna Wieden', 'password'),
   ('Homer Newark', 'password'),
   ('Tessy Colthard', 'password'),
   ('Grata Hingeley', 'password'),
