@@ -1,5 +1,5 @@
 // jshint asi:true
-const rp        = require('request-promise')
+const rp      = require('request-promise')
 const cheerio = require('cheerio')
 
 const queryImdb = (searchParam) => {

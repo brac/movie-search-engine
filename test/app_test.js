@@ -1,16 +1,19 @@
 // jshint asi:true
-const chai     = require('chai')
-const chaiHTTP = require('chai-http')
-const expect   = chai.expect
-const app  = require('../app.js')
+const chai              = require('chai')
+const chaiHTTP          = require('chai-http')
+const expect            = chai.expect
+const app               = require('../app.js')
+
+const { resetDatabase
+}                       = require('./helpers.js')
 
 chai.use(chaiHTTP)
 
-describe('Movie Search Engine', () => {
+describe('Movie Search Engine', function() {
   beforeEach(resetDatabase)
 
-  context('Homepage', () => {
-    it('responds with the homepage', () => {
+  context('Homepage', function() {
+    it('responds with the homepage', function() {
       return chai.request(app)
         .get('/')
         .then((res) => {
@@ -21,8 +24,8 @@ describe('Movie Search Engine', () => {
     })
   })
 
-  context('Login', () => {
-    it('responds with the login page', () => {
+  context('Login', function() {
+    it('responds with the login page', function() {
       return chai.request(app)
         .get('/login')
         .then((res) => {
@@ -32,7 +35,7 @@ describe('Movie Search Engine', () => {
         .catch(e => { throw e })
     })
 
-    it('redirects with a successful authentication', () => {
+    it('redirects with a successful authentication', function() {
       return chai.request(app)
         .post('/login')
         .type('form')
@@ -46,7 +49,7 @@ describe('Movie Search Engine', () => {
         })
     })
 
-    it('reloads the same page on failed authentication', () => {
+    it('reloads the same page on failed authentication', function() {
       return chai.request(app)
         .post('/login')
         .type('form')
@@ -61,8 +64,8 @@ describe('Movie Search Engine', () => {
     })
   })
 
-  context('Signup', () => {
-    it('responds with the signup page', () => {
+  context('Signup', function() {
+    it('responds with the signup page', function() {
       return chai.request(app)
         .get('/signup')
         .then((res) => {
@@ -73,8 +76,8 @@ describe('Movie Search Engine', () => {
     })
   })
 
-  context('History', () => {
-    it('responds with the history page', () => {
+  context('History', function() {
+    it('responds with the history page', function() {
       return chai.request(app)
         .get('/')
         .then((res) => {
@@ -84,11 +87,4 @@ describe('Movie Search Engine', () => {
         .catch(e => { throw e })
     })
   })
-
 })
-
-
-function resetDatabase(){
-  // return (console.log('resetDatabase()...'))
-}
-
