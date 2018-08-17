@@ -3,7 +3,6 @@ const chai              = require('chai')
 const chaiHTTP          = require('chai-http')
 const expect            = chai.expect
 const app               = require('../app.js')
-
 const { resetDatabase
 }                       = require('./helpers.js')
 
