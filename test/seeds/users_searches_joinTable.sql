@@ -1,4 +1,4 @@
-INSERT INTO users (userName, password) values
+INSERT INTO users (users_name, password) values
   ('Ben Bracamonte', 'password'),
   ('Wilmer Pulteneye', 'password'),
   ('Homer Newark', 'password'),
@@ -100,7 +100,7 @@ INSERT INTO users (userName, password) values
   ('Bessie Bisley', 'password'),
   ('Clarance Bosdet', 'password');
 
-INSERT INTO searches (searchTerm) values
+INSERT INTO searches (search_term) values
   ('The Matrix'),
   ('The Joy Luck Club'),
   ('Godzilla'),
@@ -116,16 +116,32 @@ INSERT INTO searches (searchTerm) values
   ('Star Wars'),
   ('Bugs Bunny'),
   ('Daffy Duck'),
-  ('Spiderman');
+  ('Spiderman'),
+  ('Transfomers'),
+  ('Snow Piercer'),
+  ('Mortal Kombat'),
+  ('Mario Bros'),
+  ('Spirited Away');
 
-INSERT INTO user_searches (search_id, user_id) values
-  (1, 1 ),
-  (2, 1),
+INSERT INTO users_searches (users_id, searches_id) values
+  (1, 1),
   (1, 2),
-  (3, 4),
+  (2, 1),
   (4, 3),
-  (3, 20),
-  (5, 45),
-  (6, 12),
-  (10, 1),
-  (15, 46);
+  (3, 4),
+  (5, 3),
+  (2, 5),
+  (3, 6),
+  (6, 10),
+  (7, 15),
+  (6, 14),
+  (62, 11),
+  (3, 12),
+  (1, 8),
+  (4, 7),
+  (25, 5),
+  (27, 2),
+  (53, 3),
+  (44, 3),
+  (22, 1),
+  (33, 20);

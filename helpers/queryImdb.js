@@ -16,6 +16,7 @@ const queryImdb = (searchParam) => {
         let movies = $('[name=tt]')
           .closest('.findSection')
           .find('.result_text')
+
           .map((i, elem) => {
             return {
               name: $(elem).text().split('(')[0],
