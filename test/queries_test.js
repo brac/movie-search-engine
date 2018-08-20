@@ -20,7 +20,7 @@ describe('Database Queries', function() {
           expect(records.length).to.equal(3)
         })
         .then(() =>{
-          findHistory('Jenna Wieden')
+          return findHistory('Jenna Wieden')
           .then(records => {
             expect(records[1].search_term).to.equal('Jurassic Park')
             expect(records.length).to.equal(2)
@@ -58,7 +58,40 @@ describe('Database Queries', function() {
   })
 
   context('saveSearch', function() {
-    xit('Saves the search term to the database', function() {
+    it('Saves a new search term and search entry to the database', function() {
+      return saveSearch({searchTerm: 'A New Test Movie!', user: 'Ben Bracamonte'})
+        .then(() => {
+          return findSearchTerm('A New Test Movie!')
+            .then(records => {
+              expect(records.id).to.equal(12)
+            })
+      })
+        .then(() =>{
+          return findHistory('Ben Bracamonte')
+          .then(records => {
+            expect(records[3].search_term).to.equal('A New Test Movie!')
+            expect(records.length).to.equal(4)
+          })
+        })
+      .catch( e => { throw e })
+    })
+
+    it('Saves a new search entry for an existing search term to the database', function() {
+      return saveSearch({searchTerm: 'The Joy Luck Club', user: 'Jenna Wieden'})
+        .then(() => {
+          return findSearchTerm('The Joy Luck Club')
+            .then(records => {
+              expect(records.id).to.equal(2)
+            })
+        })
+        .then(() =>{
+          return findHistory('Jenna Wieden')
+          .then(records => {
+            expect(records[2].search_term).to.equal('The Joy Luck Club')
+            expect(records.length).to.equal(3)
+          })
+        })
+      .catch( e => { throw e })
     })
   })
 })

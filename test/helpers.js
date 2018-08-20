@@ -190,7 +190,6 @@ const resetSequences = () => {
 }
 
 const resetDatabase = () => {
-  console.log('resetting!')
   return clearDatabase()
     .then(resetSequences)
     .then(insertUserFixtures)
@@ -203,5 +202,3 @@ module.exports = {
   clearDatabase,
   resetDatabase
 }
-
-resetDatabase()
