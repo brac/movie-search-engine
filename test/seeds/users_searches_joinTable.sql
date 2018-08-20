@@ -120,8 +120,7 @@ INSERT INTO searches (search_term) values
   ('Transfomers'),
   ('Snow Piercer'),
   ('Mortal Kombat'),
-  ('Mario Bros'),
-  ('Spirited Away');
+  ('Mario Bros');
 
 INSERT INTO users_searches (users_id, searches_id) values
   (1, 1),
@@ -143,5 +142,4 @@ INSERT INTO users_searches (users_id, searches_id) values
   (27, 2),
   (53, 3),
   (44, 3),
-  (22, 1),
-  (33, 20);
+  (22, 1);
