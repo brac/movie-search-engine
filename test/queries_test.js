@@ -42,19 +42,23 @@ describe('Database Queries', function() {
   })
 
   context('createUser', function() {
-    xit('Creates a user and adds it to the database', function() {
+    it('Creates a user and adds it to the database', function() {
       return createUser({
-        users_name: 'Lenny Dogface',
+        name: 'Lenny Dogface',
         password: 'password',
-      }).then(() => {
-
       })
+        .then(() => {
+          return findUser('Lenny Dogface')})
+        .then(records => {
+          expect(records.users_name).to.equal('Lenny Dogface')
+          expect(records.id).to.equal(101)
+        })
       .catch(e => { throw e })
     })
   })
 
   context('saveSearch', function() {
-    xit('Saves the tearch term to the database', function() {
+    xit('Saves the search term to the database', function() {
     })
   })
 })

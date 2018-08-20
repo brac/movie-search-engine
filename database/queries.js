@@ -25,8 +25,14 @@ const findUser = (user) => {
   )
 }
 
-const createUser = (user) => {
-
+const createUser = ({name, password}) => {
+  return client.oneOrNone(`
+    INSERT INTO users (users_name, password)
+    VALUES ($(name), $(password));`, {name, password})
+  .then(
+    results => results,
+    error => error
+  )
 }
 
 const saveSearch = (searchTerm) => {

@@ -3,21 +3,21 @@ const client = require('../database/client')
 
 const clearDatabase = () => {
   return deleteAllUsersSearches()
-    .then(() => deleteAllSearches)
-    .then(() => deleteAllUsers)
-    .catch(console.error)
+    .then(() => deleteAllSearches())
+    .then(() => deleteAllUsers())
+    .catch(e => {throw e})
 }
 
 const deleteAllUsers = () => {
-  return client.none(`DELETE from users;`)
+  return client.oneOrNone(`DELETE from users;`)
 }
 
 const deleteAllSearches = () => {
-  return client.none(`DELETE from searches;`)
+  return client.oneOrNone(`DELETE from searches;`)
 }
 
 const deleteAllUsersSearches =() => {
-  return client.none(`DELETE from users_searches;`)
+  return client.oneOrNone(`DELETE from users_searches;`)
 }
 
 const insertUserFixtures = () =>   {
@@ -181,7 +181,7 @@ const insertUserSearchesFixtures = () =>   {
   .catch(e => console.error)
 }
 
-const resetSequences =() => {
+const resetSequences = () => {
   // sets all id series back to 1 so that we can deterministically work with ids
   return client.any('ALTER SEQUENCE "users_id_seq" RESTART WITH 1;')
     .then(() => client.any('ALTER SEQUENCE "searches_id_seq" RESTART WITH 1;'))
@@ -190,6 +190,7 @@ const resetSequences =() => {
 }
 
 const resetDatabase = () => {
+  console.log('resetting!')
   return clearDatabase()
     .then(resetSequences)
     .then(insertUserFixtures)
