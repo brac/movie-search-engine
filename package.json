@@ -16,6 +16,7 @@
     "test:db:create": "createdb movie_search_engine_test",
     "test:db:drop": "dropdb movie_search_engine_test",
     "test:db:schema": "psql movie_search_engine_test < ./database/schema.sql",
+    "test:db:seed": "cat ./test/seeds/*.sql | psql movie_search_engine_test",
     "test:db:reset": "npm run test:db:drop && npm run test:db:create && npm run test:db:schema && npm run test:db:seed"
   },
   "repository": {
