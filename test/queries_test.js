@@ -6,7 +6,8 @@ const { resetDatabase } = require('./helpers.js')
 const { findHistory,
         findUser,
         createUser,
-        saveSearch }    = require('../database/queries')
+        saveSearch,
+        findAll }    = require('../database/queries')
 
 describe('Database Queries', function() {
   beforeEach(resetDatabase)
@@ -17,29 +18,43 @@ describe('Database Queries', function() {
         .then(records => {
           expect(records[0].search_term).to.equal('The Matrix')
           expect(records.length).to.equal(3)
-          return findHistory('Jenna Wieden')
-        }).then(records => {
-          expect(records[1].search_term).to.equal('Jurassic Park')
-          expect(records.length).to.equal(2)
         })
+        .then(() =>{
+          findHistory('Jenna Wieden')
+          .then(records => {
+            expect(records[1].search_term).to.equal('Jurassic Park')
+            expect(records.length).to.equal(2)
+          })
+        })
+      .catch(e => { throw e })
     })
   })
 
   context('findUser', function() {
     it('Returns the user id and name', function() {
-      expect(1).to.be.equal(0)
+      return findUser('Jenna Wieden')
+        .then(records => {
+          expect(records.id).to.equal(2)
+          expect(records.users_name).to.equal('Jenna Wieden')
+        })
+      .catch(e => { throw e })
     })
   })
 
   context('createUser', function() {
-    it('Creates a user and adds it to the database', function() {
-      expect(1).to.be.equal(0)
+    xit('Creates a user and adds it to the database', function() {
+      return createUser({
+        users_name: 'Lenny Dogface',
+        password: 'password',
+      }).then(() => {
+
+      })
+      .catch(e => { throw e })
     })
   })
 
   context('saveSearch', function() {
-    it('Saves the tearch term to the database', function() {
-      expect(1).to.be.equal(0)
+    xit('Saves the tearch term to the database', function() {
     })
   })
 })
