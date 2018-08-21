@@ -2,6 +2,8 @@
 
 const path          = require('path')
 const express       = require('express')
+const fs            = require('fs')
+const https         = require('https')
 const loginRoutes   = require(path.join(__dirname, 'routes/login'))
 const signupRoutes  = require(path.join(__dirname, 'routes/signup'))
 const searchRoutes  = require(path.join(__dirname, 'routes/search'))
@@ -9,7 +11,7 @@ const historyRoutes = require(path.join(__dirname, 'routes/history'))
 const bodyParser    = require('body-parser')
 const ejs           = require('ejs')
 const app           = express()
-const actions           = require('./actions')
+const actions       = require('./actions')
 
 let user = {name: 'Jon', job: 'president'}
 
@@ -31,10 +33,14 @@ app.get('/', (req, res) => {
 const port = process.env.PORT || 3000
 
 if(!module.parent){
-    app.listen(port, () => {
+    https.createServer({
+      key: fs.readFileSync('server.key'),
+      cert: fs.readFileSync('server.cert')
+    },app)
+    .listen(port, () => {
       console.log(
         `Moive Search Engine app listening on port ${port}
-         http://localhost:${port}`)
+         https://localhost:${port}`)
       })
 }
 
