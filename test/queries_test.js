@@ -80,22 +80,7 @@ describe('Database Queries', function() {
             expect(records[3].search_term).to.equal('A new test movie!')
           })
         })
-      // return saveSearch({searchTerm: 'A New Test Movie!', user: 'Ben Bracamonte'})
-      //   .then(() => {
-      //     return findSearchTerm('A New Test Movie!')
-      //       .then(records => {
-      //         expect(records.id).to.equal(12)
-      //       })
-
-      //       .then(() =>{
-      //         return findHistory('Ben Bracamonte')
-      //         .then(records => {
-      //           expect(records[3].search_term).to.equal('A New Test Movie!')
-      //           expect(records.length).to.equal(4)
-      //         })
-      //       })
-      //   })
-      // .catch( e => { throw e })
+      .catch( e => { throw e })
     })
 
   })

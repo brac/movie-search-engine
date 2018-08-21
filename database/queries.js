@@ -47,51 +47,39 @@ const findSearchTerm = (searchTerm) => {
 }
 
 const saveSearch = ({searchTerm, user}) => {
+  // Find the userId
   return findUser(user)
     .then(results => {
       let userId = results.id
 
-      findSearchTerm(searchTerm)
+      // Look for the search term
+      return findSearchTerm(searchTerm)
         .then(results => {
+          // If no term was found, save a the searchTerm to search
           if (results === null) {
-            client.one(`
+            return client.one(`
               INSERT INTO searches (search_term)
               VALUES ($1)
               RETURNING id;`, [ searchTerm ])
-            .then((res) => {
+            .then(res => {
               let searchId = res.id
-              console.log(searchId)
+              // Now save to the join table
+              saveUsersSearches(userId, searchId)
             })
-          } else {
-            console.log('Old book!')
+          // A search term record was found, so only save to join table
+          } else if (results !== null){
+            let searchId = results.id
+            return saveUsersSearches(userId, searchId)
           }
-
-
-
         })
-
-      // findSearchTerm(searchTerm)
-      //   .then(results => {
-      //     // Search term is in database, only save to users_searches
-      //     if (Object.keys(results).length > 1) {
-      //       const searchId = results.id
-      //       client.oneOrNone(`
-      //         INSERT INTO users_searches (users_id, searches_id)
-      //         VALUES ($1, $2)
-      //       `, [ userId, searchId ])
-
-      //     } else {
-      //       console.log('a thing')
-      //       return 'farts'
-      //     }
-      //   })
     })
   .catch(e => { throw e })
 }
 
-
-const saveUsersSearches = ({searchTerm, user}) => {
-
+const saveUsersSearches = (userId, searchId) => {
+  return client.none(`
+    INSERT INTO users_searches (users_id, searches_id)
+    VALUES ($1, $2)`, [ userId, searchId ])
 }
 
 module.exports = {
