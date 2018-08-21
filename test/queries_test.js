@@ -1,14 +1,14 @@
 // jshint asi:true
 
-const chai              = require('chai')
-const expect            = chai.expect
-const { resetDatabase } = require('./helpers.js')
+const chai                = require('chai')
+const expect              = chai.expect
+const { resetDatabase }   = require('./helpers.js')
 const { findHistory,
         findUser,
         createUser,
         saveSearch,
         findAll,
-        findSearchTerm, }    = require('../database/queries')
+        findSearchTerm, } = require('../database/queries')
 
 describe('Database Queries', function() {
   beforeEach(resetDatabase)
@@ -82,6 +82,5 @@ describe('Database Queries', function() {
         })
       .catch( e => { throw e })
     })
-
   })
 })
