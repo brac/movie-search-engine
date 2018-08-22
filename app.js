@@ -1,25 +1,56 @@
 // jshint asi:true
 
 const path          = require('path')
-const express       = require('express')
 const fs            = require('fs')
 const https         = require('https')
+const express       = require('express')
 const loginRoutes   = require(path.join(__dirname, 'routes/login'))
 const signupRoutes  = require(path.join(__dirname, 'routes/signup'))
 const searchRoutes  = require(path.join(__dirname, 'routes/search'))
 const historyRoutes = require(path.join(__dirname, 'routes/history'))
-const bodyParser    = require('body-parser')
 const ejs           = require('ejs')
-const app           = express()
-const actions       = require('./actions')
 
-let user = {name: 'Jon', job: 'president'}
+const bodyParser    = require('body-parser')
+const cookieParser  = require('cookie-parser')
+const cookieSession = require('cookie-session')
+const onHeaders     = require('on-headers')
+const actions       = require('./actions')
+const config        = require('./config')
+
+const app           = express()
+
+app.use(cookieSession({
+  name: 'session',
+  keys: config.key,
+  maxAge: 30 * 60 * 1000,
+  httpOnly: true,
+  secure: true,
+  ephemeral: true
+}))
+
+
+// let user = {name: 'Jon', job: 'president'}
 
 app.use(bodyParser.urlencoded({extended: true}))
-app.use(express.static(`${__dirname}/public`))
-
-app.set('view engine', 'ejs')
 // app.use(bodyParser.json())
+app.use(express.static(`${__dirname}/public`))
+app.use(cookieParser())
+
+app.set('views', path.join(__dirname, '/views'))
+app.set('view engine', 'ejs')
+
+app.use((req, res, next) => {
+
+
+  // req.session = JSON.parse(req.cookies.sessionCookie)
+  // req.session = {name: 'farts'}
+
+  onHeaders(res, () => {
+    res.cookie('sessionCookie', req.session)
+  })
+
+  next()
+})
 
 app.use('/search', searchRoutes)
 app.use('/login', loginRoutes)
