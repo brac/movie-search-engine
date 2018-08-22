@@ -33,6 +33,11 @@
           </div>
         </div>
       </div>
+
+      <% if (message) { %>
+        <p class="text-center mb-5"><%- message %></p>
+      <% } %>
+
       <%- include('./includes/footer') %>
     </div>
   </body>

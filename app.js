@@ -40,8 +40,7 @@ app.set('views', path.join(__dirname, '/views'))
 app.set('view engine', 'ejs')
 
 app.use((req, res, next) => {
-
-
+  // req.session = { name: 'Ben'}
   // req.session = JSON.parse(req.cookies.sessionCookie)
   // req.session = {name: 'farts'}
 
@@ -58,7 +57,9 @@ app.use('/signup', signupRoutes)
 app.use('/history', historyRoutes)
 
 app.get('/', (req, res) => {
-  res.render('layout', {results: null})
+  res.render('layout', {
+    results: null,
+  })
 })
 
 const port = process.env.PORT || 3000

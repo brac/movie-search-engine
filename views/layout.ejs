@@ -12,8 +12,14 @@
   </head>
   <body>
     <!-- <div style="height: calc(100vh - 120px)"> -->
-    <%- include('./includes/header', {name: ''}) %>
-    <% if (results !== null) { %>
+    <% if (typeof users_name !== 'undefined') { %>
+      <%- include('./includes/header', {name: users_name}) %>
+    <% } else { %>
+      <%- include('./includes/header', {name: ''}) %>
+    <% } %>
+
+
+    <% if (typeof results !== 'undefined') { %>
       <%- include('./includes/main', {results: results}) %>
     <% } else { %>
       <%- include('./includes/main', {results: ''}) %>

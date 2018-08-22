@@ -10,7 +10,7 @@ const findHistory = (user) => {
       WHERE users.users_name = $1;`, [user]
   ).then(
     results => results,
-    e => { throw e }
+    e => e
   )
 }
 
@@ -21,7 +21,7 @@ const findUser = (user) => {
     WHERE users.users_name = $1;`, [user]
   ).then(
     results => results,
-    e => { throw e }
+    e => e
   )
 }
 
@@ -31,7 +31,7 @@ const createUser = ({name, password}) => {
     VALUES ($(name), $(password));`, {name, password})
   .then(
     results => results,
-    e => { throw e }
+    e => e
   )
 }
 
@@ -42,7 +42,7 @@ const findSearchTerm = (searchTerm) => {
     WHERE searches.search_term = $1;`, [ searchTerm ])
   .then(
     results => results,
-    e => { throw e }
+    e => e
   )
 }
 
@@ -81,7 +81,7 @@ const saveSearch = ({searchTerm, user}) => {
           }
         })
     })
-  .catch(e => { throw e })
+  .catch(e => e)
 }
 
 const saveUsersSearches = (userId, searchId) => {

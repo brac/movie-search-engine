@@ -40,6 +40,15 @@ describe('Database Queries', function() {
         })
       .catch(e => { throw e })
     })
+
+    it('Returns the user id and name of a different user', function() {
+      return findUser('Ben Bracamonte')
+        .then(records => {
+          expect(records.id).to.equal(1)
+          expect(records.users_name).to.equal('Ben Bracamonte')
+        })
+      .catch(e => { throw e })
+    })
   })
 
   context('createUser', function() {
