@@ -23,8 +23,8 @@ router.post('/', (req, res) => {
         return res.status(401).render('login', {message: 'Invalid Username or Password'})
       }
 
-      req.session = user
-      res.render('layout', req.session)
+      req.session = {name: user.users_name}
+      res.redirect('/')
     })
   .catch(e => {
     return res.status(500).render('login', {message: e})

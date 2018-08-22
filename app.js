@@ -9,7 +9,6 @@ const signupRoutes  = require(path.join(__dirname, 'routes/signup'))
 const searchRoutes  = require(path.join(__dirname, 'routes/search'))
 const historyRoutes = require(path.join(__dirname, 'routes/history'))
 const ejs           = require('ejs')
-
 const bodyParser    = require('body-parser')
 const cookieParser  = require('cookie-parser')
 const cookieSession = require('cookie-session')
@@ -28,9 +27,6 @@ app.use(cookieSession({
   ephemeral: true
 }))
 
-
-// let user = {name: 'Jon', job: 'president'}
-
 app.use(bodyParser.urlencoded({extended: true}))
 // app.use(bodyParser.json())
 app.use(express.static(`${__dirname}/public`))
@@ -40,9 +36,7 @@ app.set('views', path.join(__dirname, '/views'))
 app.set('view engine', 'ejs')
 
 app.use((req, res, next) => {
-  // req.session = { name: 'Ben'}
-  // req.session = JSON.parse(req.cookies.sessionCookie)
-  // req.session = {name: 'farts'}
+
 
   onHeaders(res, () => {
     res.cookie('sessionCookie', req.session)
@@ -57,6 +51,10 @@ app.use('/signup', signupRoutes)
 app.use('/history', historyRoutes)
 
 app.get('/', (req, res) => {
+  if (!req.session.name) {
+    return res.redirect('/login')
+  }
+
   res.render('layout', {
     results: null,
   })

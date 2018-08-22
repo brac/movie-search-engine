@@ -15,9 +15,7 @@ const agent               = chai.request.agent(app)
 
 
 /*TODO:
-- As a user if I access the home page without
-  logging in, I should be redirected to the
-  login page.
+- Maintain Cookies
 
 - As a user I should be able to search for a
   movie title. Clicking on the "search" button
@@ -31,10 +29,20 @@ describe('Movie Search Engine', function() {
   beforeEach(resetDatabase)
 
   context('Homepage', function() {
-    it('responds with the homepage', function() {
+    it('redirects to the login page if the user has not logged in', function(){
+      return chai.request(app)
+      .get('/')
+      .then(res => {
+        expect(res).to.redirect //jshint ignore:line
+      })
+      .catch( e => { throw e })
+    })
+
+    it('responds with the homepage if the user has logged in', function() {
       return chai.request(app)
         .get('/')
-        .then((res) => {
+        .set('sessionCookie', 'name="Ben Bracamonte"')
+        .then(res => {
           expect(res).to.be.html //jshint ignore:line
           expect(res).to.have.status(200)
         })
@@ -42,17 +50,17 @@ describe('Movie Search Engine', function() {
     })
 
     // TODO: Use some HTML parser to determine if the header name is correct
-    xit('continues a users session if they have a valid sessionCookie', function() {
-      return chai.request(app)
-        .get('/')
-        .set('sessionCookie', 'id=1;name="test testerson"')
-        .then(res => {
-          expect(res.text).to.have(`<a class="nav-link text-white" href="#">Ben Bracamonte</a>`)
-          expect(res).to.have.status(200)
-          expect(res).to.have.cookie('sessionCookie')
-        })
-      .catch(e => { throw e })
-    })
+    // xit('continues a users session if they have a valid sessionCookie', function() {
+    //   return chai.request(app)
+    //     .get('/')
+    //     .set('sessionCookie', 'id=1;name="test testerson"')
+    //     .then(res => {
+    //       expect(res.text).to.have(`<a class="nav-link text-white" href="#">Ben Bracamonte</a>`)
+    //       expect(res).to.have.status(200)
+    //       expect(res).to.have.cookie('sessionCookie')
+    //     })
+    //   .catch(e => { throw e })
+    // })
 
     xit('returns the correct number of results for a given search', function() {
       return chai.request(app)
@@ -114,7 +122,7 @@ describe('Movie Search Engine', function() {
     it('responds with the login page', function() {
       return chai.request(app)
         .get('/login')
-        .then((res) => {
+        .then(res => {
           expect(res).to.be.html //jshint ignore:line
           expect(res).to.have.status(200)
         })
@@ -135,13 +143,14 @@ describe('Movie Search Engine', function() {
           expect(res).to.redirect //jshint ignore:line
           expect(res).to.have.cookie('sessionCookie')
         })
+      .catch(e => { throw e })
     })
 
-    xit(`redirects to the main page if the user has logged in
+    it(`redirects to the main page if the user has logged in
         and has a session cookie`, function() {
       return chai.request(app)
         .get('/login')
-        .set('sessionCookie', 'id=1;name="test testerson"')
+        .set('sessionCookie', 'name="Jenna Wieden"')
         .then(res => {
           expect(res).to.redirect //jshint ignore:line
         })
@@ -160,6 +169,7 @@ describe('Movie Search Engine', function() {
         .then( res => {
           expect(res).to.have.status(401) //jshint ignore:line
       })
+      .catch(e => { throw e })
     })
   })
 
@@ -167,7 +177,7 @@ describe('Movie Search Engine', function() {
     it('responds with the signup page', function() {
       return chai.request(app)
         .get('/signup')
-        .then((res) => {
+        .then(res => {
           expect(res).to.be.html //jshint ignore:line
           expect(res).to.have.status(200)
         })

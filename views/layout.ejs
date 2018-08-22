@@ -12,8 +12,8 @@
   </head>
   <body>
     <!-- <div style="height: calc(100vh - 120px)"> -->
-    <% if (typeof users_name !== 'undefined') { %>
-      <%- include('./includes/header', {name: users_name}) %>
+    <% if (typeof name !== 'undefined') { %>
+      <%- include('./includes/header', {name: name}) %>
     <% } else { %>
       <%- include('./includes/header', {name: ''}) %>
     <% } %>
