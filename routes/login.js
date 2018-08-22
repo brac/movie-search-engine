@@ -1,5 +1,6 @@
 // jshint asi:true
 
+const bcrypt = require('bcryptjs')
 const router = require('express').Router()
 const { findUser,
         createUser } = require('../database/queries')
@@ -19,15 +20,15 @@ router.post('/', (req, res) => {
   findUser(req.body.name)
     .then( user => {
       if (user.received == 0) {
-        return res.render('login', {message: 'Invalid Username or Password'})
+        return res.status(401).render('login', {message: 'Invalid Username or Password'})
       }
+
       req.session = user
-
-      console.log(req.session)
-
       res.render('layout', req.session)
     })
-  .catch(e => {throw e})
+  .catch(e => {
+    return res.status(500).render('login', {message: e})
+  })
 })
 
 module.exports = router
