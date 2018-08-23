@@ -13,18 +13,6 @@ const { findHistory,
 chai.use(chaiHTTP)
 const agent               = chai.request.agent(app)
 
-
-/*TODO:
-- Maintain Cookies
-
-- As a user I should be able to search for a
-  movie title. Clicking on the "search" button
-  should trigger an AJAX request, and
-  without refreshing the page, the search
-  results should be displayed on the page.
-*/
-
-
 describe('Movie Search Engine', function() {
   beforeEach(resetDatabase)
 

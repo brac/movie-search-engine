@@ -8,13 +8,15 @@ const loginRoutes   = require(path.join(__dirname, 'routes/login'))
 const signupRoutes  = require(path.join(__dirname, 'routes/signup'))
 const searchRoutes  = require(path.join(__dirname, 'routes/search'))
 const historyRoutes = require(path.join(__dirname, 'routes/history'))
+const Cryptr        = require('cryptr')
 const ejs           = require('ejs')
 const bodyParser    = require('body-parser')
 const cookieParser  = require('cookie-parser')
 const cookieSession = require('cookie-session')
 const onHeaders     = require('on-headers')
-const actions       = require('./actions')
+// const actions       = require('./actions')
 const config        = require('./config')
+const cryptr        = new Cryptr(config.key)
 
 const app           = express()
 
@@ -28,7 +30,6 @@ app.use(cookieSession({
 }))
 
 app.use(bodyParser.urlencoded({extended: true}))
-// app.use(bodyParser.json())
 app.use(express.static(`${__dirname}/public`))
 app.use(cookieParser())
 
@@ -36,10 +37,15 @@ app.set('views', path.join(__dirname, '/views'))
 app.set('view engine', 'ejs')
 
 app.use((req, res, next) => {
-
+  if (req.cookies.sessionCookie == undefined) {
+    req.session = {}
+  } else {
+    req.session = req.cookies.sessionCookie
+  }
 
   onHeaders(res, () => {
     res.cookie('sessionCookie', req.session)
+    // res.cookie('sessionCookie', encryptSession(req.session))
   })
 
   next()
@@ -59,6 +65,21 @@ app.get('/', (req, res) => {
     results: null,
   })
 })
+
+function encryptSession(session){
+  if (!session) {
+    session = {}
+  }
+
+  return cryptr.encrypt(JSON.stringify(session))
+}
+
+function decyrptSession(string) {
+  if (typeof string === 'undefined') {
+    return {}
+  }
+  return JSON.parse(cryptr.decrypt(string))
+}
 
 const port = process.env.PORT || 3000
 

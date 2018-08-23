@@ -37,6 +37,7 @@
     "cheerio": "^1.0.0-rc.2",
     "cookie-parser": "^1.4.3",
     "cookie-session": "^2.0.0-beta.3",
+    "cryptr": "^4.0.0",
     "ejs": "^2.6.1",
     "express": "^4.16.3",
     "on-headers": "^1.0.1",
