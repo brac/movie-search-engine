@@ -13,9 +13,7 @@ router.get('/', (req, res) => {
 
       res.render('layout', {results: results})
     })
-    .catch(e => {
-      console.error('Error getting history')
-    })
+    .catch(e => { throw e })
 
   function getHistory() {
     return new Promise((resolve, reject) => {

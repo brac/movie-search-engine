@@ -8,6 +8,8 @@ const loginRoutes   = require(path.join(__dirname, 'routes/login'))
 const signupRoutes  = require(path.join(__dirname, 'routes/signup'))
 const searchRoutes  = require(path.join(__dirname, 'routes/search'))
 const historyRoutes = require(path.join(__dirname, 'routes/history'))
+const apiRoutes     = require(path.join(__dirname, 'routes/api'))
+
 const Cryptr        = require('cryptr')
 const ejs           = require('ejs')
 const bodyParser    = require('body-parser')
@@ -29,7 +31,7 @@ app.use(cookieSession({
   ephemeral: true
 }))
 
-app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.urlencoded({extended: false}))
 app.use(express.static(`${__dirname}/public`))
 app.use(cookieParser())
 
@@ -46,7 +48,6 @@ app.use((req, res, next) => {
   onHeaders(res, () => {
     res.cookie('sessionCookie', req.session)
   })
-
   next()
 })
 
@@ -54,6 +55,7 @@ app.use('/search', searchRoutes)
 app.use('/login', loginRoutes)
 app.use('/signup', signupRoutes)
 app.use('/history', historyRoutes)
+app.use('/api', apiRoutes)
 
 app.get('/', (req, res) => {
   if (!req.session.name) {
