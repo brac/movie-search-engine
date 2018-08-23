@@ -29,20 +29,8 @@
     </div>
 
     <div id="search-results" class="row justify-content-center">
-      <ul class="list-group col-9 mb-4">
-        <% if (results) { %>
-          <% results.forEach(function(result) {%>
-            <li class="list-group-item">
-              <div class="row search-results">
-                <%- result.image %>
-                <p class="col my-auto"><%- result.name %></p>
-                <p class="my-auto"><%- result.date %></p>
-              </div>
-            </li>
-          <%})%>
-        <% } else { %>
+      <ul class="list-group col-9 mb-4" id="results">
 
-        <% } %>
       </ul>
     </div>
     <div class="container text-center mb-4">

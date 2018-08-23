@@ -30,7 +30,7 @@ const queryImdb = (searchParam) => {
           .find('.primary_photo')
           .map((i, elem) => {
             return {
-              image: $.html($(elem).find('img')),
+              image: $(elem).find('img').attr('src'),
             }
           })
           .toArray()
