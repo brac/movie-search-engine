@@ -45,7 +45,6 @@ app.use((req, res, next) => {
 
   onHeaders(res, () => {
     res.cookie('sessionCookie', req.session)
-    // res.cookie('sessionCookie', encryptSession(req.session))
   })
 
   next()
@@ -62,6 +61,7 @@ app.get('/', (req, res) => {
   }
 
   res.render('layout', {
+    name: req.session.name,
     results: null,
   })
 })

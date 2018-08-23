@@ -13,9 +13,6 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-  // Dont have to check for name or password
-  // bootstrap's popper alerts those missing
-  // ...I think
 
   findUser(req.body.name)
     .then( user => {

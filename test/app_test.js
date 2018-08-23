@@ -134,16 +134,37 @@ describe('Movie Search Engine', function() {
       .catch(e => { throw e })
     })
 
-    it(`redirects to the main page if the user has logged in
-        and has a session cookie`, function() {
+    it(`redirects to the main page if the user has logged
+        in and has a session cookie`, function() {
+    return agent
+      .post('/login')
+        .type('form')
+        .send({
+          '_method' : 'post',
+          'name'    : 'Jenna Wieden',
+          'password': 'password',
+        })
+      .then( res => {
+        expect(res).to.have.status(200)
+        expect(res).to.have.cookie('sessionCookie')
+        return agent.get('/login')
+          .then(res => {
+            expect(res).to.redirect //jshint ignore:line
+          })
+        .catch(e => { throw e })
+      })
+    agent.close()
+
+    })
+
+    it(`user is redirected to the login page when trying to access
+        the mainpage without sessionCookie`, function() {
       return chai.request(app)
-        .get('/login')
-        .set('sessionCookie', 'name="Jenna Wieden"')
+        .get('/')
         .then(res => {
           expect(res).to.redirect //jshint ignore:line
         })
-        .catch(e => { throw e })
-      })
+    })
 
     it('responds with status 401 on non user', function() {
       return chai.request(app)
