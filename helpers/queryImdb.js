@@ -20,7 +20,7 @@ const queryImdb = (searchParam) => {
           .map((i, elem) => {
             return {
               name: $(elem).text().split('(')[0],
-              date: $(elem).text().split('(')[1].trim().slice(0,-1)
+              date: ($(elem).text().split('(')[1].trim().slice(0,-1).length !== 4) ? '' : $(elem).text().split('(')[1].trim().slice(0,-1)
             }
           })
           .toArray()

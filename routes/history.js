@@ -4,7 +4,7 @@ const router    = require('express').Router()
 router.get('/', (req, res) => {
   let results =[]
 
-  getHistory()
+  return getHistory()
     .then(history => {
 
       history.forEach(item => {

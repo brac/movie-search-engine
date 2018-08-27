@@ -4,7 +4,7 @@
 
     <% if(name === ''){ %>
       <li>
-        <a class="nav-link text-white" href="/login">login</a>
+        <a class="nav-link text-white" id="login" href="/login">login</a>
       </li>
 
       <li>
@@ -13,7 +13,7 @@
 
      <% } else { %>
        <li>
-         <a class="nav-link text-white" href="#">
+         <a class="nav-link text-white" id="name" href="#">
           <%= name %></a>
        </li>
 

@@ -3,10 +3,10 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   const searchButton = document.getElementById('search-button')
-  const loadingIcon = document.getElementById('loading-icon')
-  const form = document.getElementById('search-form')
-  const ul = document.getElementById('results')
-  const searchInput = document.getElementById('search-input')
+  const loadingIcon  = document.getElementById('loading-icon')
+  const form         = document.getElementById('search-form')
+  const ul           = document.getElementById('results')
+  const searchInput  = document.getElementById('search-input')
 
 
   form.addEventListener("submit", function(e){
@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ul.innerHTML = ''
     searchInput.value = ''
 
-    fetch(`https://localhost:3000/api/movies`)
+    fetch(`https://localhost:3000/api/movies/${searchTerm}`)
       .then(res => {
         return res.json()
       })

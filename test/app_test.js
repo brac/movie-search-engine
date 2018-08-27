@@ -1,10 +1,10 @@
 // jshint asi:true
-const chai              = require('chai')
-const chaiHTTP          = require('chai-http')
-const expect            = chai.expect
-const app               = require('../app.js')
-const { resetDatabase
-}                       = require('./helpers.js')
+const chai                = require('chai')
+const chaiHTTP            = require('chai-http')
+const expect              = chai.expect
+const app                 = require('../app.js')
+const cheerio             = require('cheerio')
+const { resetDatabase}    = require('./helpers.js')
 const { findHistory,
         findUser,
         findAll,
@@ -26,79 +26,99 @@ describe('Movie Search Engine', function() {
       .catch( e => { throw e })
     })
 
-    it('responds with the homepage if the user has logged in', function() {
+    it('responds with the homepage if the user has a valid session cookie', function() {
+      return agent
+        .post('/login')
+          .type('form')
+          .send({
+            '_method' : 'post',
+            'name'    : 'Homer Newark',
+            'password': 'password',
+          })
+        .then( res => {
+          expect(res).to.have.status(200)
+          expect(res).to.have.cookie('sessionCookie')
+
+          return agent.get('/')
+            .then(res => {
+              expect(res.status).to.equal(200)
+              expect(res).to.have.cookie('sessionCookie')
+            })
+          .catch(e => { throw e })
+        })
+      agent.close()
+    })
+
+    it(`displays the users name on the header if a valid sessionCookie is provided`, function() {
       return chai.request(app)
         .get('/')
-        .set('sessionCookie', 'name="Ben Bracamonte"')
+        .set('Cookie', 'sessionCookie=j%3A%7B%22name%22%3A%22Ben%20Bracamonte%22%7D')
         .then(res => {
-          expect(res).to.be.html //jshint ignore:line
+          const $ = cheerio.load(res.text)
+          const userName = $('#name').text().trim()
+
           expect(res).to.have.status(200)
+          expect(res).to.have.cookie('sessionCookie')
+          expect(userName).to.equal('Ben Bracamonte')
         })
       .catch(e => { throw e })
     })
 
-    // TODO: Use some HTML parser to determine if the header name is correct
-    // xit('continues a users session if they have a valid sessionCookie', function() {
-    //   return chai.request(app)
-    //     .get('/')
-    //     .set('sessionCookie', 'id=1;name="test testerson"')
-    //     .then(res => {
-    //       expect(res.text).to.have(`<a class="nav-link text-white" href="#">Ben Bracamonte</a>`)
-    //       expect(res).to.have.status(200)
-    //       expect(res).to.have.cookie('sessionCookie')
-    //     })
-    //   .catch(e => { throw e })
-    // })
-
-    xit('returns the correct number of results for a given search', function() {
+    it(`responds with an auth error if a cookie is provided with a user
+         that is not in the database`, function(){
       return chai.request(app)
-        .get('/search?searchInput=The+Matrix')
+        .get('/')
+        .set('Cookie', 'sessionCookie=j%3A%7B%22name%22%3A%22Frank%20Dye%22%7D')
         .then(res => {
-          expect(res.text).to.have('The right results')
+          expect(res).to.have.status(401)
         })
       .catch(e => { throw e })
     })
 
-    xit('saves a search entry to the users_searches table when a user is logged in', function(){
+    it('returns the correct number of results for a given search', function() {
       return chai.request(app)
-        .get('/search?searchInput=the+joy+luck+club')
-        .set('sessionCookie', 'id=2;name="Jenna Wieden"')
+        .get('/api/movies/The Matrix')
+        .set('Cookie', 'sessionCookie=j%3A%7B%22name%22%3A%22Ben%20Bracamonte%22%7D')
+        .then(res => {
+          const movies = JSON.parse(res.text)
+
+          expect(res.status).to.equal(200)
+          expect(movies.length).to.equal(2)
+          expect(movies[0].name.trim()).to.equal('The Matrix')
+        })
+      .catch(e => { throw e })
+    })
+
+    it('saves a search entry to the users_searches table when a user is logged in', function(){
+      return chai.request(app)
+        .get('/api/movies/The Joy Luck Club')
+        .set('Cookie', 'sessionCookie=j%3A%7B%22name%22%3A%22Jenna%20Wieden%22%7D')
         .then(() => {
-          findHistory('Jenna Wieden')
+          return findHistory('Jenna Wieden')
             .then( res => {
               expect(res.length).to.equal(3)
               expect(res[2]).to.equal('the joy luck club')
             })
+          .catch(e => { throw e })
         })
-      .catch(e => { throw e })
     })
 
-    xit('saves a search term to the searches table if it does not exist already', function() {
+    it(`saves a search term to the searches table if it does not exist already
+         as well as a new search entry to users_searches `, function() {
       return chai.request(app)
-        .get('/search?searchInput=a+new+test+movie')
+        .get('/api/movies/A New Test Movie')
+        .set('Cookie', 'sessionCookie=j%3A%7B%22name%22%3A%22Ben%20Bracamonte%22%7D')
         .then(() => {
-          findSearchTerm('a new test movie')
+
+          return findSearchTerm('a new test movie')
             .then(res => {
               expect(res.id).to.equal(22)
               expect(res.search_term).to.equal('a new test movie')
-            })
-        })
-      .catch(e => { throw e })
-    })
 
-    xit('saves a search term and search entry to their respective tables when a user is logged in', function() {
-      return chai.request(app)
-        .get('/search?searchInput=a+new+dog+movie')
-        .set('sessionCookie', 'id=1;name="Ben Bracamonte"')
-        .then(() => {
-          findSearchTerm('a new dog movie')
-            .then(res => {
-              expect(res.id).to.equal(22)
-              expect(res.search_term).to.equal('a new dog movie')
-              findHistory('Ben Bracamonte')
+              return findHistory('Ben Bracamonte')
                 .then(res => {
-                  expect(res.length).to.equal(3)
-                  expect(res[2]).to.equal(' a new dog movie')
+                  expect(res.length).to.equal(4)
+                  expect(res[3]).to.equal('a new test movie')
                 })
             })
         })
@@ -147,6 +167,7 @@ describe('Movie Search Engine', function() {
       .then( res => {
         expect(res).to.have.status(200)
         expect(res).to.have.cookie('sessionCookie')
+
         return agent.get('/login')
           .then(res => {
             expect(res).to.redirect //jshint ignore:line
@@ -154,11 +175,10 @@ describe('Movie Search Engine', function() {
         .catch(e => { throw e })
       })
     agent.close()
-
     })
 
     it(`user is redirected to the login page when trying to access
-        the mainpage without sessionCookie`, function() {
+        the homepage without sessionCookie`, function() {
       return chai.request(app)
         .get('/')
         .then(res => {
@@ -182,7 +202,7 @@ describe('Movie Search Engine', function() {
     })
   })
 
-  context('Signup', function() {
+  xcontext('Signup', function() {
     it('responds with the signup page', function() {
       return chai.request(app)
         .get('/signup')
@@ -193,7 +213,7 @@ describe('Movie Search Engine', function() {
       .catch(e => { throw e })
     })
 
-    xit('responds with an error if the user name is taken', function() {
+    it('responds with an error if the user name is taken', function() {
       return chai.request(app)
         .post('/signup')
         .type('form')
@@ -203,13 +223,12 @@ describe('Movie Search Engine', function() {
           'password': 'farts',
         })
         .then(res => {
-          expect(res).to.be.html //jshint ignore:line
           expect(res).to.have.status(409)
         })
       .catch(e => { throw e })
     })
 
-    xit('creates a new user with a valid user name', function() {
+    it('creates a new user with a valid user name', function() {
       return chai.request(app)
         .post('/signup')
         .type('form')
@@ -219,11 +238,12 @@ describe('Movie Search Engine', function() {
           'password': 'bones',
         })
         .then(postReply => {
-          findUser('Lenny Dogface')
+          return findUser('Lenny Dogface')
             .then(res => {
               expect(postReply).to.redirect //jshint ignore:line
               expect(res.users_name).to.equal('Lenny Dogface')
               expect(res.id).to.equal('101')
+              expect(res).to.have.cookie('sessionCookie')
             })
         })
       .catch(e => { throw e })
@@ -231,17 +251,27 @@ describe('Movie Search Engine', function() {
 
   })
 
-  context('History', function() {
-    xit('responds with the history of the current user', function() {
-      // GET on history
-      // Check elements of returned html
+  xcontext('History', function() {
+    it('responds with the history of the current user', function() {
+      return chai.request(app)
+      .get('/api/history/Ben Bracamonte')
+      .set('Cookie', 'sessionCookie=j%3A%7B%22name%22%3A%22Ben%20Bracamonte%22%7D')
+      .then(res => {
+        expect(res.length).to.equal(3)
+      })
     })
   })
 
-  context('Logout', function() {
-    xit('logs the current user out', function() {
-      // POST to logout with sessionCookie
-      // Check returned sessionCookie
+  xcontext('Logout', function() {
+    it('logs the current user out', function() {
+      return chai.request(app)
+        .post('/logout')
+        .then(res => {
+          const $ = cheerio.load(res.text)
+          const login = $('#login').text().trim()
+
+          expect(login).to.equal('login')
+        })
     })
   })
 })

@@ -13,7 +13,6 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-
   findUser(req.body.name)
     .then( user => {
       if (user.received == 0) {

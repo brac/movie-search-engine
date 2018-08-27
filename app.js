@@ -6,7 +6,7 @@ const https         = require('https')
 const express       = require('express')
 const loginRoutes   = require(path.join(__dirname, 'routes/login'))
 const signupRoutes  = require(path.join(__dirname, 'routes/signup'))
-const searchRoutes  = require(path.join(__dirname, 'routes/search'))
+// const searchRoutes  = require(path.join(__dirname, 'routes/search'))
 const historyRoutes = require(path.join(__dirname, 'routes/history'))
 const apiRoutes     = require(path.join(__dirname, 'routes/api'))
 
@@ -51,7 +51,7 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use('/search', searchRoutes)
+// app.use('/search', searchRoutes)
 app.use('/login', loginRoutes)
 app.use('/signup', signupRoutes)
 app.use('/history', historyRoutes)
@@ -62,6 +62,7 @@ app.get('/', (req, res) => {
     return res.redirect('/login')
   }
 
+  // console.log(res.session.name)
   res.render('layout', {
     name: req.session.name,
     results: null,
