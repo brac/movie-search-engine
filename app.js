@@ -15,9 +15,8 @@ const cookieParser  = require('cookie-parser')
 const cookieSession = require('cookie-session')
 const onHeaders     = require('on-headers')
 const config        = require('./config')
-const cryptr        = new Cryptr(config.key)
+const cryptr        = new Cryptr(config.key.toString('hex').slice(0,16))
 const { findUser }  = require('./database/queries')
-
 const app           = express()
 
 app.use(cookieSession({
@@ -37,23 +36,25 @@ app.set('views', path.join(__dirname, '/views'))
 app.set('view engine', 'ejs')
 
 app.use((req, res, next) => {
-  if (req.cookies.sessionCookie == undefined) {
-    req.session = {}
-  } else {
-    req.session = req.cookies.sessionCookie
-  }
+  req.session = decyrptSession(req.cookies.sessionCookie)
 
   onHeaders(res, () => {
-    res.cookie('sessionCookie', req.session)
+    let encryptedTest = encryptSession(req.session)
+
+    res.cookie('sessionCookie', encryptSession(req.session))
   })
   next()
 })
 
-// app.use('/search', searchRoutes)
 app.use('/login', loginRoutes)
 app.use('/signup', signupRoutes)
 app.use('/history', historyRoutes)
 app.use('/api', apiRoutes)
+
+app.get('/logout', (req, res) => {
+  req.session = {}
+  res.redirect('/login')
+})
 
 app.get('/', (req, res) => {
   if (!req.session.name) {
@@ -63,21 +64,21 @@ app.get('/', (req, res) => {
   findUser(req.session.name)
     .then( user => {
       if (user.received === 0) {
-        res.redirect('/login')
+        return res.redirect('login')
       } else {
-        res.render('layout', {
+        return res.render('layout', {
           name: req.session.name,
           results: null,
         })
       }
     })
+    .catch(e => { throw e })
 })
 
 function encryptSession(session){
   if (!session) {
     session = {}
   }
-
   return cryptr.encrypt(JSON.stringify(session))
 }
 

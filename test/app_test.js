@@ -49,7 +49,7 @@ describe('Movie Search Engine', function() {
       agent.close()
     })
 
-    it(`displays the users name on the header if a valid sessionCookie is provided`, function() {
+    xit(`displays the users name on the header if a valid sessionCookie is provided`, function() {
       return chai.request(app)
         .get('/')
         .set('Cookie', 'sessionCookie=j%3A%7B%22name%22%3A%22Ben%20Bracamonte%22%7D')
@@ -64,7 +64,8 @@ describe('Movie Search Engine', function() {
       .catch(e => { throw e })
     })
 
-    it(`redirects to the login page if a cookie is provided with a user
+    // Still necessary?
+    xit(`redirects to the login page if a cookie is provided with a user
          that is not in the database`, function(){
       return chai.request(app)
         .get('/')
@@ -75,7 +76,7 @@ describe('Movie Search Engine', function() {
       .catch(e => { throw e })
     })
 
-    it('returns the correct number of results for a given search', function() {
+    xit('returns the correct number of results for a given search', function() {
       return chai.request(app)
         .get('/api/movies/The Matrix')
         .set('Cookie', 'sessionCookie=j%3A%7B%22name%22%3A%22Ben%20Bracamonte%22%7D')
@@ -89,7 +90,7 @@ describe('Movie Search Engine', function() {
       .catch(e => { throw e })
     })
 
-    it('saves a search entry to the users_searches table when a user is logged in', function(){
+    xit('saves a search entry to the users_searches table when a user is logged in', function(){
       return chai.request(app)
         .get('/api/movies/The Joy Luck Club')
         .set('Cookie', 'sessionCookie=j%3A%7B%22name%22%3A%22Jenna%20Wieden%22%7D')
@@ -103,7 +104,7 @@ describe('Movie Search Engine', function() {
         })
     })
 
-    it(`saves a search term to the searches table if it does not exist already
+    xit(`saves a search term to the searches table if it does not exist already
          as well as a new search entry to users_searches `, function() {
       return chai.request(app)
         .get('/api/movies/A New Test Movie')
@@ -262,15 +263,17 @@ describe('Movie Search Engine', function() {
     })
   })
 
-  xcontext('Logout', function() {
-    it('logs the current user out', function() {
+  context('Logout', function() {
+    // Do the agent thing to confirm
+    xit('logs the current user out', function() {
       return chai.request(app)
-        .post('/logout')
+        .get('/logout')
         .then(res => {
           const $ = cheerio.load(res.text)
           const login = $('#login').text().trim()
 
           expect(login).to.equal('login')
+          expect(res).to.redirect
         })
     })
   })
