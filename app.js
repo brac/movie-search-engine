@@ -6,19 +6,17 @@ const https         = require('https')
 const express       = require('express')
 const loginRoutes   = require(path.join(__dirname, 'routes/login'))
 const signupRoutes  = require(path.join(__dirname, 'routes/signup'))
-// const searchRoutes  = require(path.join(__dirname, 'routes/search'))
 const historyRoutes = require(path.join(__dirname, 'routes/history'))
 const apiRoutes     = require(path.join(__dirname, 'routes/api'))
-
 const Cryptr        = require('cryptr')
 const ejs           = require('ejs')
 const bodyParser    = require('body-parser')
 const cookieParser  = require('cookie-parser')
 const cookieSession = require('cookie-session')
 const onHeaders     = require('on-headers')
-// const actions       = require('./actions')
 const config        = require('./config')
 const cryptr        = new Cryptr(config.key)
+const { findUser }  = require('./database/queries')
 
 const app           = express()
 
@@ -62,11 +60,17 @@ app.get('/', (req, res) => {
     return res.redirect('/login')
   }
 
-  // console.log(res.session.name)
-  res.render('layout', {
-    name: req.session.name,
-    results: null,
-  })
+  findUser(req.session.name)
+    .then( user => {
+      if (user.received === 0) {
+        res.redirect('/login')
+      } else {
+        res.render('layout', {
+          name: req.session.name,
+          results: null,
+        })
+      }
+    })
 })
 
 function encryptSession(session){

@@ -64,13 +64,13 @@ describe('Movie Search Engine', function() {
       .catch(e => { throw e })
     })
 
-    it(`responds with an auth error if a cookie is provided with a user
+    it(`redirects to the login page if a cookie is provided with a user
          that is not in the database`, function(){
       return chai.request(app)
         .get('/')
         .set('Cookie', 'sessionCookie=j%3A%7B%22name%22%3A%22Frank%20Dye%22%7D')
         .then(res => {
-          expect(res).to.have.status(401)
+          expect(res).to.redirect
         })
       .catch(e => { throw e })
     })
