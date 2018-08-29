@@ -40,10 +40,10 @@ describe('Movie Search Engine', function() {
           expect(res).to.have.cookie('sessionCookie')
 
           return agent.get('/')
-            .then(res => {
-              expect(res.status).to.equal(200)
-              expect(res).to.have.cookie('sessionCookie')
-            })
+          .then(res => {
+            expect(res.status).to.equal(200)
+            expect(res).to.have.cookie('sessionCookie')
+          })
           .catch(e => { throw e })
         })
       agent.close()
@@ -58,14 +58,14 @@ describe('Movie Search Engine', function() {
             'name'   : 'Ben Bracamonte',
             'password' : 'password',
           })
-        .then( res => {
-          const $ = cheerio.load(res.text)
-          const userName = $('#name').text().trim()
+      .then( res => {
+        const $ = cheerio.load(res.text)
+        const userName = $('#name').text().trim()
 
-          expect(res).to.have.status(200)
-          expect(res).to.have.cookie('sessionCookie')
-          expect(userName).to.equal('Ben Bracamonte')
-        })
+        expect(res).to.have.status(200)
+        expect(res).to.have.cookie('sessionCookie')
+        expect(userName).to.equal('Ben Bracamonte')
+      })
       .catch(e => { throw e })
       agent.close()
     })
@@ -79,15 +79,15 @@ describe('Movie Search Engine', function() {
             'name'   : 'Jenna Wieden',
             'password' : 'password',
           })
+      .then(res => {
+        return agent.get('/api/movies/The Matrix')
         .then(res => {
-          return agent.get('/api/movies/The Matrix')
-          .then(res => {
-            const movies = JSON.parse(res.text)
+          const movies = JSON.parse(res.text)
 
-            expect(res.status).to.equal(200)
-            expect(movies.length).to.equal(2)
-            expect(movies[0].name.trim()).to.equal('The Matrix')
-          })
+          expect(res.status).to.equal(200)
+          expect(movies.length).to.equal(2)
+          expect(movies[0].name.trim()).to.equal('The Matrix')
+        })
         .catch(e => { throw e })
         })
       agent.close()
@@ -103,13 +103,12 @@ describe('Movie Search Engine', function() {
             'password' : 'password',
           })
       .then(() => {
-        return agent.get('/api/movies/The Joy Luck Club')
-          .then(() => {
-            return findHistory('Jenna Wieden')
-              .then( res => {
-                expect(res.length).to.equal(3)
-                expect(res[2]).to.equal('the joy luck club')
-              })
+        return agent.get('/api/movies/Transformers')
+        .then(() => {
+          return findHistory('Ben Bracamonte')
+            .then( res => {
+              expect(res.length).to.equal(4)
+            })
             .catch(e => { throw e })
           })
         })
@@ -129,18 +128,17 @@ describe('Movie Search Engine', function() {
       .then(() => {
         return agent
           .get('/api/movies/A New Test Movie')
-          .then(() => {
-            return findSearchTerm('a new test movie')
-              .then(res => {
-                expect(res.search_term).to.equal('a new test movie')
+        .then(() => {
+          return findSearchTerm('A New Test Movie')
+        .then(res => {
+          expect(res.search_term).to.equal('A New Test Movie')
 
-                return findHistory('Ben Bracamonte')
-                  .then(res => {
-                    expect(res.length).to.equal(4)
-                    expect(res[3]).to.equal('a new test movie')
-                  })
-              })
+          return findHistory('Ben Bracamonte')
+            .then(res => {
+              expect(res.length).to.equal(4)
+            })
           })
+        })
         .catch(e => { throw e })
       })
       agent.close()
@@ -260,16 +258,15 @@ describe('Movie Search Engine', function() {
         })
         .then(postReply => {
           return findUser('Lenny Dogface')
-            .then(res => {
-              expect(postReply).to.redirect //jshint ignore:line
-              expect(res.users_name).to.equal('Lenny Dogface')
-              expect(res).to.have.cookie('sessionCookie')
-            })
+          .then(res => {
+            expect(postReply).to.redirect //jshint ignore:line
+            expect(res.users_name).to.equal('Lenny Dogface')
+            expect(res).to.have.cookie('sessionCookie')
+          })
         })
       .catch(e => { throw e })
       agent.close()
     })
-
   })
 
   context('History', function() {
@@ -283,10 +280,12 @@ describe('Movie Search Engine', function() {
             'password' : 'password',
           })
       .then( () => {
-        return agent.get('/api/history/Ben Bracamonte')
+        return agent.get('/api/history/')
         .then( res => {
-          expect(res[0].name).to.equal('The Matrix')
-          expect(res.length).to.equal(3)
+          const history = JSON.parse(res.text)
+
+          expect(history.length).to.equal(3)
+          expect(history[0].name).to.equal('The Matrix')
         })
         .catch( e => { throw e })
       })

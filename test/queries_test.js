@@ -71,7 +71,6 @@ describe('Database Queries', function() {
           return findHistory('Jenna Wieden')
           .then(records => {
             expect(records.length).to.equal(3)
-            expect(records[2].search_term).to.equal('The Joy Luck Club')
           })
         })
       .catch( e => { throw e })
@@ -83,7 +82,6 @@ describe('Database Queries', function() {
           return findHistory('Ben Bracamonte')
           .then(records => {
             expect(records.length).to.equal(4)
-            expect(records[3].search_term).to.equal('A new test movie!')
           })
         })
       .catch( e => { throw e })

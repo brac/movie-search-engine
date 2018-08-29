@@ -60,21 +60,25 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 
   function createLi(movie) {
+
     const li = document.createElement('li')
     const div = document.createElement('div')
-    const img = document.createElement('img')
     const pName = document.createElement('p')
     const pDate = document.createElement('p')
 
+    if (movie.image) {
+      const img = document.createElement('img')
+      img.src = movie.image
+      div.appendChild(img)
+    }
+
     li.classList.add('list-group-item')
     div.classList.add('row', 'search-results')
-    img.src = movie.image
     pName.classList.add('col', 'y-auto')
     pDate.classList.add('my-auto')
     pName.textContent = movie.name
     pDate.textContent = movie.date
 
-    div.appendChild(img)
     div.appendChild(pName)
     div.appendChild(pDate)
     li.appendChild(div)
