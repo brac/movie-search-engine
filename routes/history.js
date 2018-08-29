@@ -1,5 +1,6 @@
 // jshint asi:true
-const router    = require('express').Router()
+const router            = require('express').Router()
+const { findHistory }   = require('../database/queries')
 
 router.get('/', (req, res) => {
   let results =[]

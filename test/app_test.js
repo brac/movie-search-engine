@@ -49,11 +49,16 @@ describe('Movie Search Engine', function() {
       agent.close()
     })
 
-    xit(`displays the users name on the header if a valid sessionCookie is provided`, function() {
-      return chai.request(app)
-        .get('/')
-        .set('Cookie', 'sessionCookie=j%3A%7B%22name%22%3A%22Ben%20Bracamonte%22%7D')
-        .then(res => {
+    it(`displays the users name on the header if a valid sessionCookie is provided`, function() {
+      return agent
+        .post('/login')
+          .type('form')
+          .send({
+            '_method': 'post',
+            'name'   : 'Ben Bracamonte',
+            'password' : 'password',
+          })
+        .then( res => {
           const $ = cheerio.load(res.text)
           const userName = $('#name').text().trim()
 
@@ -62,67 +67,83 @@ describe('Movie Search Engine', function() {
           expect(userName).to.equal('Ben Bracamonte')
         })
       .catch(e => { throw e })
+      agent.close()
     })
 
-    // Still necessary?
-    xit(`redirects to the login page if a cookie is provided with a user
-         that is not in the database`, function(){
-      return chai.request(app)
-        .get('/')
-        .set('Cookie', 'sessionCookie=j%3A%7B%22name%22%3A%22Frank%20Dye%22%7D')
+    it('returns the correct number of results for a given search', function() {
+      return agent
+        .post('/login')
+          .type('form')
+          .send({
+            '_method': 'post',
+            'name'   : 'Jenna Wieden',
+            'password' : 'password',
+          })
         .then(res => {
-          expect(res).to.redirect
+          return agent.get('/api/movies/The Matrix')
+          .then(res => {
+            const movies = JSON.parse(res.text)
+
+            expect(res.status).to.equal(200)
+            expect(movies.length).to.equal(2)
+            expect(movies[0].name.trim()).to.equal('The Matrix')
+          })
+        .catch(e => { throw e })
         })
-      .catch(e => { throw e })
+      agent.close()
     })
 
-    xit('returns the correct number of results for a given search', function() {
-      return chai.request(app)
-        .get('/api/movies/The Matrix')
-        .set('Cookie', 'sessionCookie=j%3A%7B%22name%22%3A%22Ben%20Bracamonte%22%7D')
-        .then(res => {
-          const movies = JSON.parse(res.text)
-
-          expect(res.status).to.equal(200)
-          expect(movies.length).to.equal(2)
-          expect(movies[0].name.trim()).to.equal('The Matrix')
+    it('saves a search entry to the users_searches table when a user is logged in', function(){
+      return agent
+        .post('/login')
+          .type('form')
+          .send({
+            '_method': 'post',
+            'name'   : 'Ben Bracamonte',
+            'password' : 'password',
+          })
+      .then(() => {
+        return agent.get('/api/movies/The Joy Luck Club')
+          .then(() => {
+            return findHistory('Jenna Wieden')
+              .then( res => {
+                expect(res.length).to.equal(3)
+                expect(res[2]).to.equal('the joy luck club')
+              })
+            .catch(e => { throw e })
+          })
         })
-      .catch(e => { throw e })
+        agent.close()
     })
 
-    xit('saves a search entry to the users_searches table when a user is logged in', function(){
-      return chai.request(app)
-        .get('/api/movies/The Joy Luck Club')
-        .set('Cookie', 'sessionCookie=j%3A%7B%22name%22%3A%22Jenna%20Wieden%22%7D')
-        .then(() => {
-          return findHistory('Jenna Wieden')
-            .then( res => {
-              expect(res.length).to.equal(3)
-              expect(res[2]).to.equal('the joy luck club')
-            })
-          .catch(e => { throw e })
-        })
-    })
-
-    xit(`saves a search term to the searches table if it does not exist already
+    it(`saves a search term to the searches table if it does not exist already
          as well as a new search entry to users_searches `, function() {
-      return chai.request(app)
-        .get('/api/movies/A New Test Movie')
-        .set('Cookie', 'sessionCookie=j%3A%7B%22name%22%3A%22Ben%20Bracamonte%22%7D')
-        .then(() => {
+      return agent
+        .post('/login')
+          .type('form')
+          .send({
+            '_method': 'post',
+            'name'   : 'Ben Bracamonte',
+            'password' : 'password',
+          })
+      .then(() => {
+        return agent
+          .get('/api/movies/A New Test Movie')
+          .then(() => {
+            return findSearchTerm('a new test movie')
+              .then(res => {
+                expect(res.search_term).to.equal('a new test movie')
 
-          return findSearchTerm('a new test movie')
-            .then(res => {
-              expect(res.search_term).to.equal('a new test movie')
-
-              return findHistory('Ben Bracamonte')
-                .then(res => {
-                  expect(res.length).to.equal(4)
-                  expect(res[3]).to.equal('a new test movie')
-                })
-            })
-        })
-      .catch(e => { throw e })
+                return findHistory('Ben Bracamonte')
+                  .then(res => {
+                    expect(res.length).to.equal(4)
+                    expect(res[3]).to.equal('a new test movie')
+                  })
+              })
+          })
+        .catch(e => { throw e })
+      })
+      agent.close()
     })
   })
 
@@ -202,7 +223,7 @@ describe('Movie Search Engine', function() {
     })
   })
 
-  xcontext('Signup', function() {
+  context('Signup', function() {
     it('responds with the signup page', function() {
       return chai.request(app)
         .get('/signup')
@@ -223,13 +244,13 @@ describe('Movie Search Engine', function() {
           'password': 'farts',
         })
         .then(res => {
-          expect(res).to.have.status(409)
+          expect(res).to.have.status(400)
         })
       .catch(e => { throw e })
     })
 
     it('creates a new user with a valid user name', function() {
-      return chai.request(app)
+      return agent
         .post('/signup')
         .type('form')
         .send({
@@ -246,26 +267,45 @@ describe('Movie Search Engine', function() {
             })
         })
       .catch(e => { throw e })
+      agent.close()
     })
 
   })
 
-  xcontext('History', function() {
+  context('History', function() {
     it('responds with the history of the current user', function() {
-      return chai.request(app)
-      .get('/api/history/Ben Bracamonte')
-      .set('Cookie', 'sessionCookie=j%3A%7B%22name%22%3A%22Ben%20Bracamonte%22%7D')
-      .then(res => {
-        expect(res.length).to.equal(3)
+      return agent
+        .post('/login')
+          .type('form')
+          .send({
+            '_method': 'post',
+            'name'   : 'Ben Bracamonte',
+            'password' : 'password',
+          })
+      .then( () => {
+        return agent.get('/api/history/Ben Bracamonte')
+        .then( res => {
+          expect(res[0].name).to.equal('The Matrix')
+          expect(res.length).to.equal(3)
+        })
+        .catch( e => { throw e })
       })
+      agent.close()
     })
   })
 
   context('Logout', function() {
-    // Do the agent thing to confirm
-    xit('logs the current user out', function() {
-      return chai.request(app)
-        .get('/logout')
+    it('logs the current user out', function() {
+      return agent
+        .post('/login')
+          .type('form')
+          .send({
+            '_method': 'post',
+            'name'   : 'Jenna Weiden',
+            'password' : 'password',
+          })
+      .then(res => {
+        return agent.get('/logout')
         .then(res => {
           const $ = cheerio.load(res.text)
           const login = $('#login').text().trim()
@@ -273,6 +313,9 @@ describe('Movie Search Engine', function() {
           expect(login).to.equal('login')
           expect(res).to.redirect
         })
+        .catch( e => { throw e })
+      })
+      agent.close()
     })
   })
 })
