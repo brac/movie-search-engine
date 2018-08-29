@@ -4,7 +4,7 @@ const queryImdb       = require('../helpers/queryImdb')
 const { findHistory,
         saveSearch,  } = require('../database/queries')
 
-router.get('/movies/:searchTerm', (req, res) => {
+router.get('/movies/:searchTerm', (req, res, next) => {
   if (!req.session.name) {
     return res.redirect('/login')
   }
@@ -18,10 +18,10 @@ router.get('/movies/:searchTerm', (req, res) => {
           res.json(results)
         })
     })
-  .catch(e => { throw e })
+  .catch(next)
 })
 
-router.get('/history', (req, res) => {
+router.get('/history', (req, res, next) => {
   if (!req.session.name) {
     return res.redirect('/login')
   }
@@ -41,7 +41,7 @@ router.get('/history', (req, res) => {
       }
       return res.json(results)
     })
-    .catch(e => { throw e })
+    .catch(next)
 })
 
 module.exports = router

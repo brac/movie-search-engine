@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
   res.render('signup', {message: null})
 })
 
-router.post('/', (req, res) => {
+router.post('/', (req, res, next) => {
   const user = {
     name: req.body.name,
     password: req.body.password,
@@ -43,45 +43,11 @@ router.post('/', (req, res) => {
             req.session = { name: user.name }
             return res.redirect('/')
           })
-          .catch( e => {
-            return res.render('signup', { message: e })
-          })
+          .catch(next)
         })
       })
       }
     })
-
-
-//
-  // res.json(user)
-
-
-
-  // findUser(req.body.name)
-  //   .then( user => {
-
-  //     if (user.received == 0) {
-  //       return res.status(401).render('login', {message: 'Invalid Username or Password'})
-  //     } else {
-
-  //       bcrypt.compare(req.body.password, user.password, (err, result) => {
-  //         if (err) { return res.status(500).render('login', { message: err }) }
-
-  //         if (result) {
-  //           user.password = ''
-  //           req.session = {name: user.users_name}
-  //           return res.redirect('/')
-  //         }
-
-  //         if (!result) {
-  //           return res.render('login', { message: 'Invalid Username or Password'})
-  //         }
-  //       })
-  //     }
-  //   })
-  // .catch(e => {
-  //   return res.status(500).render('login', {message: e})
-  // })
 })
 
 module.exports = router

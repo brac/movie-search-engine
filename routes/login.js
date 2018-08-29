@@ -7,13 +7,13 @@ const { findUser,
 
 router.get('/', (req, res) => {
   if (req.session.name) {
-    res.redirect('/')
+    return res.redirect('/')
   }
 
   res.render('login', {message: null})
 })
 
-router.post('/', (req, res) => {
+router.post('/', (req, res, next) => {
   findUser(req.body.name)
     .then( user => {
 
@@ -36,9 +36,7 @@ router.post('/', (req, res) => {
         })
       }
     })
-  .catch(e => {
-    return res.status(500).render('login', {message: e})
-  })
+  .catch(next)
 })
 
 module.exports = router

@@ -6,7 +6,6 @@ const https         = require('https')
 const express       = require('express')
 const loginRoutes   = require(path.join(__dirname, 'routes/login'))
 const signupRoutes  = require(path.join(__dirname, 'routes/signup'))
-const historyRoutes = require(path.join(__dirname, 'routes/history'))
 const apiRoutes     = require(path.join(__dirname, 'routes/api'))
 const Cryptr        = require('cryptr')
 const ejs           = require('ejs')
@@ -54,7 +53,7 @@ app.get('/logout', (req, res) => {
   res.redirect('/login')
 })
 
-app.get('/', (req, res) => {
+app.get('/', (req, res, next) => {
   if (!req.session.name) {
     return res.redirect('/login')
   }
@@ -70,7 +69,7 @@ app.get('/', (req, res) => {
         })
       }
     })
-    .catch(e => { throw e })
+    .catch(next)
 })
 
 function encryptSession(session){
@@ -86,6 +85,11 @@ function decyrptSession(string) {
   }
   return JSON.parse(cryptr.decrypt(string))
 }
+
+app.use(function (err, req, res, next) {
+  console.error(err.stack)
+  res.status(500).send('Something broke!')
+})
 
 const port = process.env.PORT || 3000
 
