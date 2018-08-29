@@ -1,15 +1,32 @@
 // jshint asi:true
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener('DOMContentLoaded', () => {
 
-  const searchButton = document.getElementById('search-button')
-  const loadingIcon  = document.getElementById('loading-icon')
-  const form         = document.getElementById('search-form')
-  const ul           = document.getElementById('results')
-  const searchInput  = document.getElementById('search-input')
+  const searchButton  = document.getElementById('search-button')
+  const loadingIcon   = document.getElementById('loading-icon')
+  const form          = document.getElementById('search-form')
+  const ul            = document.getElementById('results')
+  const searchInput   = document.getElementById('search-input')
+  const historyButton = document.getElementById('history')
 
+  historyButton.addEventListener('click', function(e) {
+    e.preventDefault()
+    ul.innerHTML = ''
 
-  form.addEventListener("submit", function(e){
+    fetch(`https://localhost:3000/api/history/`)
+      .then( res => {
+        return res.json()
+      })
+      .then( history => {
+        history.forEach(movie => {
+          const li = createLi(movie)
+          ul.appendChild(li)
+        })
+      })
+    .catch(e => { throw e })
+  })
+
+  form.addEventListener('submit', function(e){
     e.preventDefault()
 
     let searchTerm = searchInput.value

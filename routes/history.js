@@ -1,39 +1,25 @@
 // jshint asi:true
+// TODO: DELETE FILE
+
 const router            = require('express').Router()
 const { findHistory }   = require('../database/queries')
 
-router.get('/', (req, res) => {
-  let results =[]
+// router.get('/', (req, res) => {
+//   let results =[]
 
-  return getHistory()
-    .then(history => {
-
-      history.forEach(item => {
-        results.push(item)
-      })
-
-      res.render('layout', {results: results})
-    })
-    .catch(e => { throw e })
-
-  function getHistory() {
-    return new Promise((resolve, reject) => {
-      let history = [{
-        name: 'The Matrix',
-        date: null,
-        images: null,
-      }, {
-        name: 'The Joy Luck Club',
-        date: null,
-        images: null,
-      }, {
-        name: 'Godzilla',
-        date: null,
-        images: null,
-      }]
-      resolve(history)
-    })
-  }
-})
+//   return findHistory(req.session.name)
+//     .then(history => {
+//       history.forEach( item => {
+//         results.push({
+//           name: item.search_term,
+//           date: null,
+//           images: null
+//         })
+//       })
+//       console.log(results)
+//       res.render('layout', {results: results})
+//     })
+//     .catch(e => { throw e })
+// })
 
 module.exports = router

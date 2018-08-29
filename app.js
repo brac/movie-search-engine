@@ -48,9 +48,7 @@ app.use((req, res, next) => {
 
 app.use('/login', loginRoutes)
 app.use('/signup', signupRoutes)
-app.use('/history', historyRoutes)
 app.use('/api', apiRoutes)
-
 app.get('/logout', (req, res) => {
   req.session = {}
   res.redirect('/login')
