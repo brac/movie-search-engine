@@ -30,12 +30,16 @@ router.get('/history', (req, res) => {
 
   findHistory(req.session.name)
     .then(history => {
-      history.forEach( item => {
-        results.push({
-          name: item.search_term,
+      if (history.received === 0) {
+        return res.json(results)
+      } else {
+        history.forEach( item => {
+          results.push({
+            name: item.search_term,
+          })
         })
-      })
-      res.json(results)
+      }
+      return res.json(results)
     })
     .catch(e => { throw e })
 })

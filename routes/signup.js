@@ -31,17 +31,27 @@ router.post('/', (req, res) => {
   return findUser(user.name)
     .then(result => {
       if (result.received != 0) {
-        res.send('found an existing user')
+        return res.status(400).render('signup', { message: 'Username taken' })
       } else {
-        res.send('new user!')
+
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(user.password, salt, (err, hash) =>{
+          user.password = hash
+          createUser(user)
+          .then(() => {
+            user.password = ''
+            req.session = { name: user.name }
+            return res.redirect('/')
+          })
+          .catch( e => {
+            return res.render('signup', { message: e })
+          })
+        })
+      })
       }
     })
 
-  // bcrypt.getSalt(10, (err, sals) => {
-    // bcrypt.hash(user.password, salt, (err, hash) =>{
-      // user.password = hash
-    // })
-  // })
+
 //
   // res.json(user)
 

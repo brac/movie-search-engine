@@ -233,7 +233,7 @@ describe('Movie Search Engine', function() {
       .catch(e => { throw e })
     })
 
-    it('responds with an error if the user name is taken', function() {
+    it('responds with status 400 if the user name is taken', function() {
       return chai.request(app)
         .post('/signup')
         .type('form')
@@ -263,8 +263,8 @@ describe('Movie Search Engine', function() {
           return findUser('Lenny Dogface')
           .then(res => {
             expect(postReply).to.redirect //jshint ignore:line
+            expect(postReply).to.have.cookie('sessionCookie')
             expect(res.users_name).to.equal('Lenny Dogface')
-            expect(res).to.have.cookie('sessionCookie')
           })
         })
       .catch(e => { throw e })
