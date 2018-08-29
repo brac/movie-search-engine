@@ -6,20 +6,11 @@ const { findUser,
         createUser } = require('../database/queries')
 
 router.get('/', (req, res) => {
-  const userName = req.session.name
-
-  if (userName) {
-    findUser(userName)
-      .then(user => {
-        if (user.received === 0) {
-          return res.render('login', {message: `Invalid Username or Password`})
-        } else {
-          return res.redirect('/')
-        }
-      })
-  } else {
-    res.render('login', {message: null})
+  if (req.session.name) {
+    res.redirect('/')
   }
+
+  res.render('login', {message: null})
 })
 
 router.post('/', (req, res) => {

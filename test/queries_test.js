@@ -12,6 +12,7 @@ const { findHistory,
 
 describe('Database Queries', function() {
   beforeEach(resetDatabase)
+  afterEach(resetDatabase)
 
   context('findHistory', function() {
     it('Returns the history of a user', function() {

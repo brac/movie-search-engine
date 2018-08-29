@@ -15,6 +15,7 @@ const agent               = chai.request.agent(app)
 
 describe('Movie Search Engine', function() {
   beforeEach(resetDatabase)
+  afterEach(resetDatabase)
 
   context('Homepage', function() {
     it('redirects to the login page if the user has not logged in', function(){
@@ -238,8 +239,9 @@ describe('Movie Search Engine', function() {
         .type('form')
         .send({
           '_method': 'post',
-          'users_name': 'Ben Bracamonte',
+          'name': 'Ben Bracamonte',
           'password': 'farts',
+          'confirmPassword': 'farts',
         })
         .then(res => {
           expect(res).to.have.status(400)
@@ -253,8 +255,9 @@ describe('Movie Search Engine', function() {
         .type('form')
         .send({
           '_method': 'post',
-          'users_name': 'Lenny Dogface',
+          'name': 'Lenny Dogface',
           'password': 'bones',
+          'confirmPassword': 'bones',
         })
         .then(postReply => {
           return findUser('Lenny Dogface')
