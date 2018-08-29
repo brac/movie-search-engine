@@ -16,7 +16,7 @@ const findHistory = (user) => {
 
 const findUser = (user) => {
   return client.one(`
-    SELECT id, users_name
+    SELECT id, users_name, password
     FROM users
     WHERE users.users_name = $1;`, [user]
   ).then(

@@ -32,19 +32,17 @@ describe('Database Queries', function() {
   })
 
   context('findUser', function() {
-    it('Returns the user id and name', function() {
+    it('Returns the user name', function() {
       return findUser('Jenna Wieden')
         .then(records => {
-          expect(records.id).to.equal(2)
           expect(records.users_name).to.equal('Jenna Wieden')
         })
       .catch(e => { throw e })
     })
 
-    it('Returns the user id and name of a different user', function() {
+    it('Returns the user name of a different user', function() {
       return findUser('Ben Bracamonte')
         .then(records => {
-          expect(records.id).to.equal(1)
           expect(records.users_name).to.equal('Ben Bracamonte')
         })
       .catch(e => { throw e })
@@ -61,7 +59,6 @@ describe('Database Queries', function() {
           return findUser('Lenny Dogface')})
         .then(records => {
           expect(records.users_name).to.equal('Lenny Dogface')
-          expect(records.id).to.equal(101)
         })
       .catch(e => { throw e })
     })
@@ -73,8 +70,8 @@ describe('Database Queries', function() {
         .then(() =>{
           return findHistory('Jenna Wieden')
           .then(records => {
-            expect(records[2].search_term).to.equal('The Joy Luck Club')
             expect(records.length).to.equal(3)
+            expect(records[2].search_term).to.equal('The Joy Luck Club')
           })
         })
       .catch( e => { throw e })

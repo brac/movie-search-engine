@@ -113,7 +113,6 @@ describe('Movie Search Engine', function() {
 
           return findSearchTerm('a new test movie')
             .then(res => {
-              expect(res.id).to.equal(22)
               expect(res.search_term).to.equal('a new test movie')
 
               return findHistory('Ben Bracamonte')
@@ -243,7 +242,6 @@ describe('Movie Search Engine', function() {
             .then(res => {
               expect(postReply).to.redirect //jshint ignore:line
               expect(res.users_name).to.equal('Lenny Dogface')
-              expect(res.id).to.equal('101')
               expect(res).to.have.cookie('sessionCookie')
             })
         })
