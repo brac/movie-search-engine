@@ -38,8 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
       // Change locahost to the heroku server
       // for deployment
 
-      // Send search term to api
-
     ul.innerHTML = ''
     searchInput.value = ''
 

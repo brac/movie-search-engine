@@ -28,18 +28,6 @@ const deleteAllUsersSearches =() => {
 }
 
 const insertUserFixtures = () =>   {
-  // return Promise.all(
-  //   users.map(user => {
-  //     bcrypt.genSalt(10, (err, salt) => {
-  //       if (err) { console.log(err) }
-  //       bcrypt.hash('password', salt, (err, hash) => {
-  //         user.password = hash
-  //         queries.createUser(user)
-  //       })
-  //     })
-  //   })
-  // )
-
   return client.none(`
     INSERT INTO users (users_name, password) values
       ('Ben Bracamonte', '$2a$10$8LQqcZRvRalqLIGC9eYmk.JA79kv4QWmpdPxro.UBNLfVvPlGCGbi'),
