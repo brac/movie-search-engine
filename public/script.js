@@ -1,7 +1,5 @@
 // jshint asi:true
-
 document.addEventListener('DOMContentLoaded', () => {
-
   const searchButton  = document.getElementById('search-button')
   const loadingIcon   = document.getElementById('loading-icon')
   const form          = document.getElementById('search-form')
@@ -13,7 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault()
     ul.innerHTML = ''
 
-    fetch(`https://localhost:3000/api/history/`)
+    fetch(`https://localhost:5000/api/history/`)
+    // fetch(`https://dry-wildwood-46109.herokuapp.com/api/history/`)
       .then( res => {
         return res.json()
       })
@@ -34,14 +33,11 @@ document.addEventListener('DOMContentLoaded', () => {
     searchButton.classList.add('d-none')
     loadingIcon.classList.remove('d-none')
 
-    // TODO:
-      // Change locahost to the heroku server
-      // for deployment
-
     ul.innerHTML = ''
     searchInput.value = ''
 
-    fetch(`https://localhost:3000/api/movies/${searchTerm}`)
+    fetch(`https://localhost:5000/api/movies/${searchTerm}`)
+    // fetch(`https://dry-wildwood-46109.herokuapp.com/api/movies/${searchTerm}`)
       .then(res => {
         return res.json()
       })

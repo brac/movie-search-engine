@@ -1,6 +1,6 @@
 # Movie Search Engine
 
-The Movie Search Engine (MSE) App is a full stack web app developed with [Node.js](https://nodejs.org/en/download/). It is currently deployed to (TODO: HEROKU), please create an account and try it out for yourself. The MSE provides user accounts and keeps a record of user searches. Cookies are encrypted as well as user passwords with [cryptr](https://www.npmjs.com/package/cryptr) and [bcrypt.js](https://www.npmjs.com/package/cryptr), respectively.
+The Movie Search Engine (MSE) App is a full stack web app developed with [Node.js](https://nodejs.org/en/download/). It is currently deployed to as a [Heroku app](https://dry-wildwood-46109.herokuapp.com/), please create an account and try it out for yourself. The MSE provides user accounts and keeps a record of user searches. Cookies are encrypted as well as user passwords with [cryptr](https://www.npmjs.com/package/cryptr) and [bcrypt.js](https://www.npmjs.com/package/cryptr), respectively.
 
 ## Getting Started
 

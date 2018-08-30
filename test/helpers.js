@@ -1,10 +1,5 @@
 // jshint asi:true
-
-// TODO:
-  //  Remove crypto if possible
-const bcrypt = require('bcryptjs')
-
-
+const bcrypt  = require('bcryptjs')
 const client  = require('../database/client')
 const queries = require('../database/queries')
 

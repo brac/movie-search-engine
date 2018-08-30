@@ -6,3 +6,4 @@ server.cert
 server.csr
 server.key
 config.json
+.env
