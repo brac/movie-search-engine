@@ -1,4 +1,4 @@
-{
+  {
   "name": "movie-search-engine",
   "version": "1.0.0",
   "description": "",
@@ -10,6 +10,7 @@
     "db:drop": "dropdb movie_search_engine",
     "db:schema": "psql movie_search_engine < ./database/schema.sql",
     "db:reset": "npm run db:drop && npm run db:create && npm run db:schema",
+    "db:restart": "npm run db:reset || npm run db:create && npm run db:reset",
     "test": "NODE_ENV=test mocha ./test/*_test.js --exit",
     "test:app": "NODE_ENV=test mocha ./test/app_test.js --exit",
     "test:queries": "NODE_ENV=test mocha ./test/queries_test.js --exit",
@@ -17,7 +18,7 @@
     "test:db:drop": "dropdb movie_search_engine_test",
     "test:db:schema": "psql movie_search_engine_test < ./database/schema.sql",
     "test:db:seed": "cat ./test/seeds/*.sql | psql movie_search_engine_test",
-    "test:db:reset": "npm run test:db:drop && npm run test:db:create && npm run test:db:schema && npm run test:db:seed"
+    "test:db:reset": "npm run test:db:drop && npm run test:db:create && npm run test:db:schema && npm run test:db:seed",
   },
   "repository": {
     "type": "git",
