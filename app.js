@@ -22,7 +22,7 @@ const app           = express()
 
 app.use(cookieSession({
   name: 'session',
-  keys: config.key,
+  keys: config,
   maxAge: 30 * 60 * 1000,
   httpOnly: true,
   secure: true,
