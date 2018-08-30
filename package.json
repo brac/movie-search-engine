@@ -1,4 +1,4 @@
-  {
+{
   "name": "movie-search-engine",
   "version": "1.0.0",
   "description": "",
@@ -18,15 +18,19 @@
     "test:db:drop": "dropdb movie_search_engine_test",
     "test:db:schema": "psql movie_search_engine_test < ./database/schema.sql",
     "test:db:seed": "cat ./test/seeds/*.sql | psql movie_search_engine_test",
-    "test:db:reset": "npm run test:db:drop && npm run test:db:create && npm run test:db:schema && npm run test:db:seed",
+    "test:db:reset": "npm run test:db:drop && npm run test:db:create && npm run test:db:schema && npm run test:db:seed"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/brac/movie-search-engine.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "https://github.com/brac",
+  "license": "MIT",
+  "engines": {
+    "node": "10.0.x",
+    "npm": "6.4.x"
+  },
   "bugs": {
     "url": "https://github.com/brac/movie-search-engine/issues"
   },
