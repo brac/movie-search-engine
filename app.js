@@ -95,16 +95,18 @@ app.use(function (err, req, res, next) {
 
 const port = process.env.PORT || 3000
 
-if(!module.parent || !process.env.HEROKU){
-    https.createServer({
-      key: fs.readFileSync('server.key'),
-      cert: fs.readFileSync('server.cert')
-    },app)
-    .listen(port, () => {
-      console.log(
-        `Moive Search Engine app listening on port ${port}
-         https://localhost:${port}`)
-      })
-}
+// if(!module.parent){
+//     https.createServer({
+//       key: fs.readFileSync('server.key'),
+//       cert: fs.readFileSync('server.cert')
+//     },app)
+//     .listen(port, () => {
+//       console.log(
+//         `Moive Search Engine app listening on port ${port}
+//          https://localhost:${port}`)
+//       })
+// }
+
+app.listen(port)
 
 module.exports= app
