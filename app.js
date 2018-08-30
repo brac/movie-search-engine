@@ -13,9 +13,7 @@ const bodyParser    = require('body-parser')
 const cookieParser  = require('cookie-parser')
 const cookieSession = require('cookie-session')
 const onHeaders     = require('on-headers')
-// const config        = require('./config')
-// const config        = process.env.CONFIG_KEY != '' ? process.env.CONFIG_KEY : require('./config').key
-const config        = process.env.CONFIG_KEY
+const config        = process.env.CONFIG_KEY == undefined ? require('./config').key : process.env.CONFIG_KEY
 const cryptr        = new Cryptr(config.toString('hex').slice(0,16))
 const { findUser }  = require('./database/queries')
 const app           = express()
@@ -90,29 +88,25 @@ function decyrptSession(string) {
 
 app.use(function (err, req, res, next) {
   console.error(err.stack)
-  res.status(500).send('Something broke!')
+  res.status(500).send(`
+    Something broke! :
+    ${err}
+  `)
 })
 
 const port = process.env.PORT || 3000
 
-// if(!module.parent){
-//     https.createServer({
-//       key: fs.readFileSync('server.key'),
-//       cert: fs.readFileSync('server.cert')
-//     },app)
-//     .listen(port, () => {
-//       console.log(
-//         `Moive Search Engine app listening on port ${port}
-//          https://localhost:${port}`)
-//       })
-// }
+if(!module.parent){
+    https.createServer({
+      key: fs.readFileSync('server.key'),
+      cert: fs.readFileSync('server.cert')
+    },app)
+    .listen(port, () => {
+      console.log(
+        `Moive Search Engine app listening on port ${port}
+         https://localhost:${port}`)
+      })
+}
 
-app.listen(port, () => {
-  console.log(
-    `
-Moive Search Engine app listening on port ${port}
-http://localhost:${port}
-`)
-  })
 
 module.exports= app
