@@ -107,6 +107,12 @@ const port = process.env.PORT || 3000
 //       })
 // }
 
-app.listen(port)
+app.listen(port, () => {
+  console.log(
+    `
+Moive Search Engine app listening on port ${port}
+http://localhost:${port}
+`)
+  })
 
 module.exports= app
