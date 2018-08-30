@@ -14,8 +14,8 @@ const cookieParser  = require('cookie-parser')
 const cookieSession = require('cookie-session')
 const onHeaders     = require('on-headers')
 // const config        = require('./config')
-const config        = process.env.CONFIG_KEY
 // const config        = process.env.CONFIG_KEY != '' ? process.env.CONFIG_KEY : require('./config').key
+const config        = process.env.CONFIG_KEY
 const cryptr        = new Cryptr(config.toString('hex').slice(0,16))
 const { findUser }  = require('./database/queries')
 const app           = express()
