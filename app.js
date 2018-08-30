@@ -96,7 +96,7 @@ app.use(function (err, req, res, next) {
 
 const port = process.env.PORT || 3000
 
-if(!module.parent || process.env.HEROKU != 'true'){
+if(!module.parent && process.env.HEROKU != 'true'){
     https.createServer({
       key: fs.readFileSync('server.key'),
       cert: fs.readFileSync('server.cert')
