@@ -14,22 +14,17 @@ const localConnection = {
     database:  databaseName,
 }
 
-const cn = process.env.DATABASE_URL ? process.env.DATABASE_URL : localConnection
+const remoteConnection = {
+  user: 'kksfpoqgolzivm',
+  password: '835982c2170d4ab25d0ba76505f49dc23629500c09d96c933e04b3d002e7aa82',
+  host: 'ec2-54-235-86-226.compute-1.amazonaws.com',
+  port: '5432',
+  database: 'd4o5pjqsmknffb',
+  ssl: true,
+}
+
+const cn = process.env.DATABASE_URL ? remoteConnection : localConnection
 
 let db = pgp(cn);
-
-if (process.env.DATABASE_URL) {
-  client.connect()
-  client.query(`SELECT id, users_name, password
-    FROM users
-    WHERE users.users_name = 'Ben B'`, (err, result) => {
-
-    if (err) { throw err}
-    for (let row of result.rows) {
-      console.log(JSON.stringify(row))
-    }
-    client.end()
-  })
-}
 
 module.exports = db
