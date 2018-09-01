@@ -1,8 +1,8 @@
 // jshint asi:true
-const client = require('./client')
+const db  = require('./client')
 
 const findHistory = (user) => {
-  return client.many(`
+  return db.many(`
       SELECT search_term
       FROM searches
       JOIN users_searches ON (searches.id = users_searches.searches_id)
@@ -15,7 +15,7 @@ const findHistory = (user) => {
 }
 
 const findUser = (user) => {
-  return client.one(`
+  return db.one(`
     SELECT id, users_name, password
     FROM users
     WHERE users.users_name = $1;`, [user]
@@ -26,7 +26,7 @@ const findUser = (user) => {
 }
 
 const createUser = ({name, password}) => {
-  return client.oneOrNone(`
+  return db.oneOrNone(`
     INSERT INTO users (users_name, password)
     VALUES ($(name), $(password));`, {name, password})
   .then(
@@ -36,7 +36,7 @@ const createUser = ({name, password}) => {
 }
 
 const findSearchTerm = (searchTerm) => {
-  return client.oneOrNone(`
+  return db.oneOrNone(`
     SELECT *
     FROM searches
     WHERE searches.search_term = $1;`, [ searchTerm ])
@@ -58,7 +58,7 @@ const saveSearch = ({searchTerm, user}) => {
           // If no term was found, save the searchTerm to searches
           // then save search entry to users_searches
           if (results === null) {
-            return client.none(`
+            return db.none(`
               DO $$
                 DECLARE sid integer;
                 BEGIN
@@ -85,7 +85,7 @@ const saveSearch = ({searchTerm, user}) => {
 }
 
 const saveUsersSearches = (userId, searchId) => {
-  return client.none(`
+  return db.none(`
     INSERT INTO users_searches (users_id, searches_id)
     VALUES ($1, $2)`, [ userId, searchId ])
 }
