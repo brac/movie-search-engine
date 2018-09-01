@@ -2,8 +2,8 @@ node_modules
 npm-debug.log
 *.log
 NOTES.md
-server.cert
-server.csr
-server.key
-config.json
+# server.cert
+# server.csr
+# server.key
+# config.json
 .env
