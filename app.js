@@ -15,7 +15,7 @@ const cookieSession = require('cookie-session')
 const onHeaders     = require('on-headers')
 const config        = process.env.CONFIG_KEY == undefined ? require('./config').key : process.env.CONFIG_KEY
 const cryptr        = new Cryptr(config.toString('hex').slice(0,16))
-const { findUser }  = require('./database/queries')
+const { findUser }  = require(path.join(__dirname, 'database/queries'))
 const app           = express()
 
 app.use(cookieSession({
@@ -100,7 +100,7 @@ if (process.env.HEROKU == 'true') {
   app.listen(port, () => {
     console.log(
       `Moive Search Engine app listening on port ${port}
-       at HEROKU`)
+       at for Heroku deployment`)
   })
 } else if(!module.parent){
     https.createServer({
@@ -113,8 +113,5 @@ if (process.env.HEROKU == 'true') {
          https://localhost:${port}`)
       })
 }
-
-
-
 
 module.exports= app

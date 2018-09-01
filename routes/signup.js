@@ -1,9 +1,9 @@
 // jshint asi:true
-
+const path          = require('path')
 const router        = require('express').Router()
 const bcrypt        = require('bcryptjs')
 const { findUser,
-        createUser} = require('../database/queries')
+        createUser} = require(path.join(__dirname, '../database/queries'))
 
 router.get('/', (req, res) => {
   if (req.session.name) {

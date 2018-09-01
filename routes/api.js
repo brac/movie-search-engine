@@ -1,8 +1,9 @@
 // jshint asi:true
+const path            = require('path')
 const router          = require('express').Router()
-const queryImdb       = require('../helpers/queryImdb')
+const queryImdb       = require(path.join(__dirname,'../helpers/queryImdb'))
 const { findHistory,
-        saveSearch,  } = require('../database/queries')
+        saveSearch,  } = require(path.join(__dirname,'../database/queries'))
 
 router.get('/movies/:searchTerm', (req, res, next) => {
   if (!req.session.name) {

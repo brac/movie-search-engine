@@ -1,5 +1,6 @@
 // jshint asi:true
-const db  = require('./client')
+const path = require('path')
+const db   = require(path.join(__dirname, 'client'))
 
 const findHistory = (user) => {
   return db.many(`

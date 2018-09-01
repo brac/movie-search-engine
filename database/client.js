@@ -1,17 +1,11 @@
 // jshint asi:true
-const { Client } = require('pg')
 const pgp          = require('pg-promise')()
 const databaseName = process.env.NODE_ENV == 'test' ? 'movie_search_engine_test' : 'movie_search_engine'
 
-const client = new Client({
-  connectionString: process.env.DATABASE_URL,
-  ssl: true,
-})
-
 const localConnection = {
-    host: 'localhost',
-    port: 5432,
-    database:  databaseName,
+  host: 'localhost',
+  port: 5432,
+  database:  databaseName,
 }
 
 const remoteConnection = {
@@ -24,7 +18,6 @@ const remoteConnection = {
 }
 
 const cn = process.env.DATABASE_URL ? remoteConnection : localConnection
-
-let db = pgp(cn);
+let db   = pgp(cn);
 
 module.exports = db
