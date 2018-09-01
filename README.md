@@ -11,8 +11,7 @@ npm run db:create
 npm run db:reset
 npm run start
 ```
-
-Then navigate to ```https://localhost:3000/``` to view the application.
+Navigate to ```https://localhost:3000/``` to view the application.
 
 ### Prerequisites
 
@@ -41,7 +40,7 @@ npm run test:app
 
 ## Deployment
 
-TODO: Details about deploying to Heroku
+If you wish to deploy this application to Heroku, edit `public/script.js`, swapping the commented fetch calls from `localhost` to your own depoyment location.
 
 ## Built With
 
