@@ -100,7 +100,7 @@ if (process.env.HEROKU == 'true') {
   app.listen(port, () => {
     console.log(
       `Moive Search Engine app listening on port ${port}
-       https://localhost:${port}`)
+       at HEROKU`)
   })
 } else if(!module.parent){
     https.createServer({
