@@ -11,9 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault()
     ul.innerHTML = ''
 
-    // For heroku Deployment, swap the following fetch calls
-    fetch(`https://localhost:3000/api/history/`)
-    // fetch(`https://dry-wildwood-46109.herokuapp.com/api/history/`)
+    fetch(`/api/history/`)
       .then( res => {
         return res.json()
       })
@@ -37,9 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ul.innerHTML = ''
     searchInput.value = ''
 
-    // For heroku Deployment, swap the following fetch calls
-    fetch(`https://localhost:3000/api/movies/${searchTerm}`)
-    // fetch(`https://dry-wildwood-46109.herokuapp.com/api/movies/${searchTerm}`)
+    fetch(`/api/movies/${searchTerm}`)
       .then(res => {
         return res.json()
       })

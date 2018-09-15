@@ -1,12 +1,14 @@
 // jshint asi:true
 
+require('./environment')
 const path          = require('path')
 const fs            = require('fs')
+const http          = require('http')
 const https         = require('https')
 const express       = require('express')
-const loginRoutes   = require(path.join(__dirname, 'routes/login'))
-const signupRoutes  = require(path.join(__dirname, 'routes/signup'))
-const apiRoutes     = require(path.join(__dirname, 'routes/api'))
+const loginRoutes   = require('./routes/login')
+const signupRoutes  = require('./routes/signup')
+const apiRoutes     = require('./routes/api')
 const Cryptr        = require('cryptr')
 const ejs           = require('ejs')
 const bodyParser    = require('body-parser')
@@ -15,7 +17,7 @@ const cookieSession = require('cookie-session')
 const onHeaders     = require('on-headers')
 const config        = process.env.CONFIG_KEY == undefined ? require('./config').key : process.env.CONFIG_KEY
 const cryptr        = new Cryptr(config.toString('hex').slice(0,16))
-const { findUser }  = require(path.join(__dirname, 'database/queries'))
+const { findUser }  = require('./database/queries')
 const app           = express()
 
 app.use(cookieSession({
@@ -95,23 +97,26 @@ app.use(function (err, req, res, next) {
 })
 
 const port = process.env.PORT || 3000
-
+const useHttps = !!process.env.HTTPS
 if (process.env.HEROKU == 'true') {
   app.listen(port, () => {
     console.log(
       `Moive Search Engine app listening on port ${port}
        at for Heroku deployment`)
   })
-} else if(!module.parent){
-    https.createServer({
-      key: fs.readFileSync('server.key'),
-      cert: fs.readFileSync('server.cert')
-    },app)
-    .listen(port, () => {
-      console.log(
-        `Moive Search Engine app listening on port ${port}
-         https://localhost:${port}`)
-      })
+} else if (!module.parent){
+
+  // const server = (useHttps ? https : http).createServer({
+  //     key: fs.readFileSync('server.key'),
+  //     cert: fs.readFileSync('server.cert')
+  // }, app)
+
+  app.listen(port, () => {
+    console.log(
+      `Moive Search Engine app listening on port ${port}\n`+
+      `http://localhost:${port}`
+    )
+  })
 }
 
-module.exports= app
+module.exports = app
