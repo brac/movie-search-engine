@@ -1,16 +1,30 @@
 // jshint asi:true
-const path            = require('path')
-const router          = require('express').Router()
-const queryImdb       = require(path.join(__dirname,'../helpers/queryImdb'))
-const { findHistory,
-        saveSearch,  } = require(path.join(__dirname,'../database/queries'))
+const path = require('path')
+const router = require('express').Router()
+const queryImdb = require('../helpers/queryImdb')
+const { findHistory, saveSearch } = require('../database/queries')
 
 router.get('/movies/:searchTerm', (req, res, next) => {
+
+  // (async () => {
+  //   let searchResult
+  //   searchResult = await searchForMovieInDatabase({ searchTerm })
+  //   if (!searchResult){
+  //     searchResult = await searchIMDB({ searchTerm })
+  //     await saveMovieSearchResults({ searchTerm, searchResult })
+  //   }
+  //   res.json({ searchResult })
+  // })().catch(error => {
+  //   res.status(500).json({ error: error.toString() })
+  // })
+
+
+
   if (!req.session.name) {
     return res.redirect('/login')
   }
-  searchTerm = req.params.searchTerm
-  user       = req.session.name
+  const searchTerm = req.params.searchTerm
+  const user       = req.session.name
 
   saveSearch({searchTerm, user})
     .then(() => {

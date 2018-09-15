@@ -1,6 +1,5 @@
 // jshint asi:true
-const path = require('path')
-const db   = require(path.join(__dirname, 'client'))
+const db  = require('./client')
 
 const findHistory = (user) => {
   return db.many(`
@@ -58,31 +57,52 @@ const saveSearch = ({searchTerm, user}) => {
         .then(results => {
           // If no term was found, save the searchTerm to searches
           // then save search entry to users_searches
-          if (results === null) {
-            return db.none(`
-              DO $$
-                DECLARE sid integer;
-                BEGIN
-                  INSERT INTO
-                    searches (search_term)
-                  VALUES
-                    ($1) RETURNING id INTO sid;
-
-                  INSERT INTO
-                    users_searches (users_id, searches_id)
-                  VALUES
-                    ($2, sid);
-                END $$;
-            `, [ searchTerm, userId ])
-
-          // A search term record was found, so only save to join table
-          } else if (results !== null){
-            let searchId = results.id
-            return saveUsersSearches(userId, searchId)
+          if (results) {
+            // A search term record was found, so only save to join table
+            return saveUsersSearches(userId, results.id)
           }
+
+          return db.tx(tx =>
+            tx.one(
+              `
+              INSERT INTO
+                searches (search_term)
+              VALUES
+                ($1)
+              RETURNING
+                id
+              `,
+              [searchTerm]
+            ).then(({ id: searchesId }) =>
+              tx.none(
+                `
+                INSERT INTO
+                  users_searches (users_id, searches_id)
+                VALUES
+                  ($1, $2)
+                `,
+                [userId, searchesId]
+              )
+            )
+          )
+
+          // return db.none(`
+          //   DO $$
+          //     DECLARE sid integer;
+          //     BEGIN
+          //       INSERT INTO
+          //         searches (search_term)
+          //       VALUES
+          //         ($1) RETURNING id INTO sid;
+
+          //       INSERT INTO
+          //         users_searches (users_id, searches_id)
+          //       VALUES
+          //         ($2, sid);
+          //     END $$;
+          // `, [ searchTerm, userId ])
         })
     })
-  .catch(e => e)
 }
 
 const saveUsersSearches = (userId, searchId) => {
