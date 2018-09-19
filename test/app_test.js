@@ -1,4 +1,3 @@
-// jshint asi:true
 const chai                = require('chai')
 const chaiHTTP            = require('chai-http')
 const expect              = chai.expect

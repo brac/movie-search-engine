@@ -1,4 +1,3 @@
-// jshint asi:true
 const pgp          = require('pg-promise')()
 const databaseName = process.env.NODE_ENV == 'test' ? 'movie_search_engine_test' : 'movie_search_engine'
 

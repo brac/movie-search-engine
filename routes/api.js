@@ -1,4 +1,3 @@
-// jshint asi:true
 const path            = require('path')
 const router          = require('express').Router()
 const queryImdb       = require(path.join(__dirname,'../helpers/queryImdb'))

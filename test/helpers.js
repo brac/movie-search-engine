@@ -1,4 +1,3 @@
-// jshint asi:true
 const bcrypt  = require('bcryptjs')
 const client  = require('../database/client')
 const queries = require('../database/queries')

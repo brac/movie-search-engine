@@ -1,5 +1,3 @@
-// jshint asi:true
-
 const chai                = require('chai')
 const expect              = chai.expect
 const { resetDatabase }   = require('./helpers.js')

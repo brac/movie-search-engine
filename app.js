@@ -1,12 +1,10 @@
-// jshint asi:true
-
 const path          = require('path')
 const fs            = require('fs')
 const https         = require('https')
 const express       = require('express')
-const loginRoutes   = require(path.join(__dirname, 'routes/login'))
-const signupRoutes  = require(path.join(__dirname, 'routes/signup'))
-const apiRoutes     = require(path.join(__dirname, 'routes/api'))
+const loginRoutes   = require('./routes/login')
+const signupRoutes  = require('./routes/signup')
+const apiRoutes     = require('./routes/api')
 const Cryptr        = require('cryptr')
 const ejs           = require('ejs')
 const bodyParser    = require('body-parser')
@@ -15,7 +13,7 @@ const cookieSession = require('cookie-session')
 const onHeaders     = require('on-headers')
 const config        = process.env.CONFIG_KEY == undefined ? require('./config').key : process.env.CONFIG_KEY
 const cryptr        = new Cryptr(config.toString('hex').slice(0,16))
-const { findUser }  = require(path.join(__dirname, 'database/queries'))
+const { findUser }  = require('./database/queries')
 const app           = express()
 
 app.use(cookieSession({
