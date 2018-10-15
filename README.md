@@ -40,7 +40,7 @@ npm run test:app
 
 ## Deployment
 
-If you wish to deploy this application to Heroku, edit `public/script.js`, swapping the commented fetch calls from `localhost` to your own depoyment location.
+If you wish to deploy this application to Heroku, be sure to have your own DATABASE_URL in place in your own .env file.
 
 ## Built With
 
